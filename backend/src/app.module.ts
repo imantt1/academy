@@ -38,7 +38,8 @@ import { SeedModule } from './seed/seed.module';
         url: config.get<string>('DATABASE_URL'),
         ssl: { rejectUnauthorized: false },
         entities: [User, ModuleEntity, Lesson, Quiz, Question, UserProgress],
-        synchronize: true, // ⚠️ Cambiar a false en producción y usar migrations
+        // En Railway: DB_SYNC=false (default). Para primer deploy con DB vacía: DB_SYNC=true, luego volver a false
+        synchronize: config.get<string>('DB_SYNC', 'false') === 'true',
         logging: ['error', 'warn'],
       }),
     }),
