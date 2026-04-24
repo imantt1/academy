@@ -20,10 +20,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[#1E2D6B] border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 text-sm">Cargando...</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#070E20' }}>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#D4AE0C] border-t-transparent rounded-full animate-spin" />
+          <p className="text-white/40 text-sm">Cargando plataforma...</p>
         </div>
       </div>
     );
@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!isAuthenticated) return null;
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen" style={{ background: '#070E20' }}>
       <Sidebar />
       <main className="flex-1 overflow-auto">
         {children}

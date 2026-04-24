@@ -1,10 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, CheckCircle, PlayCircle, FileText, Star, ClipboardList } from 'lucide-react';
+import { ArrowLeft, CheckCircle, PlayCircle, FileText, Star, ClipboardList, ChevronRight, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { modulesApi } from '@/lib/api';
-import ProgressBar from '@/components/ui/ProgressBar';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -34,14 +33,24 @@ export default function ModuleDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-10 h-10 border-4 border-[#1E2D6B] border-t-transparent rounded-full animate-spin" />
+      <div className="flex items-center justify-center min-h-screen bg-[#070E20]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#D4AE0C] border-t-transparent rounded-full animate-spin" />
+          <p className="text-white/40 text-sm">Cargando módulo...</p>
+        </div>
       </div>
     );
   }
 
   if (!module) {
-    return <div className="p-8 text-center text-gray-500">Módulo no encontrado.</div>;
+    return (
+      <div className="min-h-screen bg-[#070E20] flex items-center justify-center">
+        <div className="text-center">
+          <BookOpen size={40} className="mx-auto text-white/20 mb-3" />
+          <p className="text-white/40">Módulo no encontrado.</p>
+        </div>
+      </div>
+    );
   }
 
   const progress = module.userProgress;
@@ -49,128 +58,171 @@ export default function ModuleDetailPage() {
   const completed = progress?.completed ?? false;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[#070E20]">
+
       {/* Left sidebar: lesson list */}
-      <aside className="w-72 bg-white border-r flex flex-col shrink-0">
+      <aside className="w-72 min-h-screen flex flex-col shrink-0"
+        style={{ background: '#0D1B3E', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+
         {/* Header */}
-        <div className="p-5 border-b">
+        <div className="p-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <button
             onClick={() => router.push('/modules')}
-            className="flex items-center gap-2 text-gray-500 hover:text-[#1E2D6B] text-sm mb-4 transition-colors"
+            className="flex items-center gap-2 text-white/40 hover:text-[#D4AE0C] text-sm mb-5 transition-colors"
           >
             <ArrowLeft size={14} />
             Volver a módulos
           </button>
-          <div className="flex items-center gap-2 mb-1">
+
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
             {module.isPremium && (
-              <span className="flex items-center gap-1 text-[10px] bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-full">
-                <Star size={9} />
-                Premium
+              <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(212,174,12,0.15)', color: '#D4AE0C', border: '1px solid rgba(212,174,12,0.3)' }}>
+                <Star size={9} /> Premium
               </span>
             )}
             {completed && (
-              <span className="flex items-center gap-1 text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-0.5 rounded-full">
-                <CheckCircle size={9} />
-                Completado
+              <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)' }}>
+                <CheckCircle size={9} /> Completado
               </span>
             )}
           </div>
-          <h2 className="font-bold text-[#1E2D6B] text-base leading-snug">{module.title}</h2>
-          <p className="text-xs text-gray-400 mt-1">Módulo {module.order}</p>
+
+          <p className="text-[#D4AE0C] text-[10px] font-bold uppercase tracking-widest mb-1">Módulo {module.order}</p>
+          <h2 className="font-bold text-white text-sm leading-snug">{module.title}</h2>
 
           {score > 0 && (
             <div className="mt-3">
-              <ProgressBar value={score} color={completed ? 'green' : 'blue'} size="sm" />
+              <div className="flex justify-between text-[10px] mb-1">
+                <span className="text-white/40">Último puntaje</span>
+                <span style={{ color: completed ? '#10B981' : '#D4AE0C' }}>{score}%</span>
+              </div>
+              <div className="w-full bg-white/10 rounded-full h-1.5">
+                <div className="h-1.5 rounded-full transition-all"
+                  style={{ width: `${score}%`, background: completed ? '#10B981' : '#D4AE0C' }} />
+              </div>
             </div>
           )}
         </div>
 
         {/* Lessons list */}
-        <div className="flex-1 overflow-y-auto py-2">
-          <p className="px-4 py-2 text-[10px] text-gray-400 uppercase font-semibold tracking-wider">
+        <div className="flex-1 overflow-y-auto py-3">
+          <p className="px-5 py-2 text-[10px] text-white/30 uppercase font-semibold tracking-wider">
             Lecciones
           </p>
-          {module.lessons.map((lesson, i) => (
-            <button
-              key={lesson.id}
-              onClick={() => setActiveLesson(lesson)}
-              className={`w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors border-l-2 ${
-                activeLesson?.id === lesson.id
-                  ? 'border-[#1E2D6B] bg-blue-50/50'
-                  : 'border-transparent'
-              }`}
-            >
-              <div className={`mt-0.5 w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 text-xs font-bold ${
-                activeLesson?.id === lesson.id
-                  ? 'border-[#1E2D6B] bg-[#1E2D6B] text-white'
-                  : 'border-gray-300 text-gray-400'
-              }`}>
-                {i + 1}
-              </div>
-              <div className="min-w-0">
-                <p className={`text-sm font-medium truncate ${
-                  activeLesson?.id === lesson.id ? 'text-[#1E2D6B]' : 'text-gray-700'
-                }`}>
-                  {lesson.title}
-                </p>
-                {lesson.videoUrl && (
-                  <span className="flex items-center gap-1 text-[10px] text-gray-400 mt-0.5">
-                    <PlayCircle size={9} /> Video
-                  </span>
-                )}
-              </div>
-            </button>
-          ))}
+          {module.lessons.map((lesson, i) => {
+            const isActive = activeLesson?.id === lesson.id;
+            return (
+              <button
+                key={lesson.id}
+                onClick={() => setActiveLesson(lesson)}
+                className="w-full flex items-start gap-3 px-4 py-3 text-left transition-all relative"
+                style={{
+                  background: isActive ? 'rgba(212,174,12,0.08)' : 'transparent',
+                  borderLeft: `2px solid ${isActive ? '#D4AE0C' : 'transparent'}`,
+                }}
+              >
+                <div className="mt-0.5 w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold border transition-all"
+                  style={{
+                    background: isActive ? '#D4AE0C' : 'rgba(255,255,255,0.05)',
+                    borderColor: isActive ? '#D4AE0C' : 'rgba(255,255,255,0.1)',
+                    color: isActive ? '#0D1B3E' : 'rgba(255,255,255,0.3)',
+                  }}>
+                  {i + 1}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium truncate transition-colors"
+                    style={{ color: isActive ? 'white' : 'rgba(255,255,255,0.5)' }}>
+                    {lesson.title}
+                  </p>
+                  {lesson.videoUrl && (
+                    <span className="flex items-center gap-1 text-[10px] text-white/30 mt-0.5">
+                      <PlayCircle size={9} /> Video incluido
+                    </span>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Quiz CTA */}
-        <div className="p-4 border-t">
+        <div className="p-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <Link
             href={`/modules/${module.id}/quiz`}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-[#1E2D6B] text-white text-sm font-semibold rounded-lg hover:bg-[#2a3f8f] transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold transition-all"
+            style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #e8c514, #D4AE0C)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #D4AE0C, #b8940a)'; }}
           >
             <ClipboardList size={15} />
-            {completed ? 'Repetir quiz' : score > 0 ? `Reintentar quiz (${score}%)` : 'Ir al quiz'}
+            {completed ? 'Repetir evaluación' : score > 0 ? `Reintentar (${score}%)` : 'Ir a la evaluación'}
           </Link>
-          <p className="text-center text-xs text-gray-400 mt-2">
+          <p className="text-center text-[10px] text-white/30 mt-2">
             Mínimo {module.passingScore}% para aprobar
           </p>
         </div>
       </aside>
 
       {/* Main: lesson content */}
-      <main className="flex-1 overflow-y-auto p-8 max-w-3xl">
+      <main className="flex-1 overflow-y-auto">
         {activeLesson ? (
-          <>
+          <div className="max-w-3xl mx-auto p-8">
             {/* Video player */}
             {activeLesson.videoUrl && (
-              <div className="mb-6 rounded-xl overflow-hidden bg-black aspect-video">
-                <video
-                  src={activeLesson.videoUrl}
-                  controls
-                  className="w-full h-full"
-                  playsInline
-                />
+              <div className="mb-8 rounded-xl overflow-hidden bg-black aspect-video border border-white/10">
+                <video src={activeLesson.videoUrl} controls className="w-full h-full" playsInline />
               </div>
             )}
 
-            <div className="flex items-center gap-2 mb-4">
-              <FileText size={16} className="text-[#7B9FD4]" />
-              <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
+            {/* Lesson header */}
+            <div className="flex items-center gap-2 mb-3">
+              <FileText size={14} className="text-[#7B9FD4]" />
+              <span className="text-[#7B9FD4] text-xs uppercase tracking-wider font-semibold">
                 Lección {activeLesson.order}
               </span>
             </div>
-            <h1 className="text-xl font-bold text-[#1E2D6B] mb-4">{activeLesson.title}</h1>
+            <h1 className="text-2xl font-black text-white mb-6">{activeLesson.title}</h1>
+
+            {/* Separator */}
+            <div className="h-px mb-8" style={{ background: 'linear-gradient(90deg, rgba(212,174,12,0.4), transparent)' }} />
 
             {/* Markdown content */}
-            <div className="prose prose-blue max-w-none text-gray-700 text-sm leading-relaxed">
+            <div className="prose max-w-none"
+              style={{
+                '--tw-prose-body': 'rgba(255,255,255,0.7)',
+                '--tw-prose-headings': 'white',
+                '--tw-prose-bold': 'white',
+                '--tw-prose-code': '#D4AE0C',
+                '--tw-prose-bullets': '#7B9FD4',
+                '--tw-prose-hr': 'rgba(255,255,255,0.1)',
+              } as React.CSSProperties}>
+              <style>{`
+                .prose p { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1rem; }
+                .prose h1, .prose h2, .prose h3 { color: white; font-weight: 800; }
+                .prose h2 { color: #D4AE0C; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+                .prose h3 { color: #7B9FD4; font-size: 1rem; margin-top: 1.5rem; }
+                .prose strong { color: white; }
+                .prose code { color: #D4AE0C; background: rgba(212,174,12,0.1); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.85em; }
+                .prose ul { color: rgba(255,255,255,0.7); }
+                .prose li { margin-bottom: 0.35rem; }
+                .prose li::marker { color: #7B9FD4; }
+                .prose table { width: 100%; border-collapse: collapse; }
+                .prose th { background: rgba(30,45,107,0.6); color: #D4AE0C; padding: 0.6rem 1rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+                .prose td { padding: 0.6rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+                .prose tr:hover td { background: rgba(255,255,255,0.02); }
+                .prose blockquote { border-left: 3px solid #D4AE0C; padding-left: 1rem; margin-left: 0; background: rgba(212,174,12,0.05); border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; }
+                .prose blockquote p { color: rgba(255,255,255,0.6); font-style: italic; margin: 0; }
+                .prose hr { border-color: rgba(255,255,255,0.08); margin: 2rem 0; }
+              `}</style>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {activeLesson.content}
               </ReactMarkdown>
             </div>
 
             {/* Prev / Next navigation */}
-            <div className="flex justify-between mt-10 pt-6 border-t">
+            <div className="flex justify-between mt-12 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
               {module.lessons.findIndex((l) => l.id === activeLesson.id) > 0 ? (
                 <button
                   onClick={() => {
@@ -178,7 +230,8 @@ export default function ModuleDetailPage() {
                     setActiveLesson(module.lessons[idx - 1]);
                     window.scrollTo(0, 0);
                   }}
-                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#1E2D6B] transition-colors"
+                  className="flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors px-4 py-2 rounded-lg"
+                  style={{ border: '1px solid rgba(255,255,255,0.1)' }}
                 >
                   <ArrowLeft size={14} />
                   Lección anterior
@@ -192,26 +245,34 @@ export default function ModuleDetailPage() {
                     setActiveLesson(module.lessons[idx + 1]);
                     window.scrollTo(0, 0);
                   }}
-                  className="flex items-center gap-2 text-sm bg-[#1E2D6B] text-white px-4 py-2 rounded-lg hover:bg-[#2a3f8f] transition-colors"
+                  className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl transition-all"
+                  style={{ background: 'rgba(30,45,107,0.8)', color: '#7B9FD4', border: '1px solid rgba(123,159,212,0.3)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(30,45,107,1)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(30,45,107,0.8)'; }}
                 >
                   Siguiente lección
-                  <ArrowLeft size={14} className="rotate-180" />
+                  <ChevronRight size={14} />
                 </button>
               ) : (
                 <Link
                   href={`/modules/${module.id}/quiz`}
-                  className="flex items-center gap-2 text-sm bg-[#1E2D6B] text-white px-4 py-2 rounded-lg hover:bg-[#2a3f8f] transition-colors"
+                  className="flex items-center gap-2 text-sm font-black px-5 py-2.5 rounded-xl transition-all"
+                  style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #e8c514, #D4AE0C)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #D4AE0C, #b8940a)'; }}
                 >
                   <ClipboardList size={14} />
-                  Ir al quiz final
+                  Ir a la evaluación
                 </Link>
               )}
             </div>
-          </>
+          </div>
         ) : (
-          <div className="text-center py-20 text-gray-400">
-            <FileText size={40} className="mx-auto mb-3 opacity-40" />
-            <p>Selecciona una lección para comenzar.</p>
+          <div className="flex items-center justify-center h-full min-h-96">
+            <div className="text-center">
+              <FileText size={40} className="mx-auto text-white/10 mb-3" />
+              <p className="text-white/30">Selecciona una lección para comenzar.</p>
+            </div>
           </div>
         )}
       </main>

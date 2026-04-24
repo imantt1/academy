@@ -3,6 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { SeedService } from './seed/seed.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -48,6 +49,17 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
+
+  // Auto-migration: detect old seed and replace with new technical content
+  const seedService = app.get(SeedService);
+  await seedService.autoMigrateIfStale();
+
+  // Manual reseed override via env var
+  if (process.env.RESEED === 'true') {
+    console.log('🌱 RESEED=true — ejecutando reset y seed forzado...');
+    await seedService.reset();
+    console.log('✅ Re-seed completado');
+  }
 
   const port = process.env.PORT || 3001;
   await app.listen(port);

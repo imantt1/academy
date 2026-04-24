@@ -15,8 +15,17 @@ export class SeedController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
-  @ApiOperation({ summary: '[Admin] Ejecutar seed de 9 módulos RTP' })
+  @ApiOperation({ summary: '[Admin] Ejecutar seed de 9 módulos RTP (solo si vacío)' })
   run() {
     return this.seedService.run();
+  }
+
+  @Post('reset')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '[Admin] Eliminar todos los módulos y re-ejecutar seed' })
+  reset() {
+    return this.seedService.reset();
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quiz } from '../entities/quiz.entity';
@@ -10,6 +10,8 @@ import { SubmitQuizDto } from './dto/submit-quiz.dto';
 
 @Injectable()
 export class QuizzesService {
+  private readonly logger = new Logger(QuizzesService.name);
+
   constructor(
     @InjectRepository(Quiz)
     private quizzesRepo: Repository<Quiz>,
@@ -36,6 +38,8 @@ export class QuizzesService {
   }
 
   async submit(moduleId: number, userId: string, dto: SubmitQuizDto) {
+    this.logger.log(`[submit] userId=${userId} moduleId=${moduleId} answers=${dto.answers.length}`);
+
     // Check module exists and access
     const module = await this.modulesRepo.findOne({ where: { id: moduleId } });
     if (!module) throw new NotFoundException(`Módulo #${moduleId} no encontrado`);
@@ -70,20 +74,28 @@ export class QuizzesService {
     const score = Math.round((correct / quiz.questions.length) * 100);
     const passed = score >= module.passingScore;
 
-    // Save or update progress
-    let progress = await this.progressRepo.findOne({ where: { userId, moduleId } });
-    if (!progress) {
-      progress = this.progressRepo.create({ userId, moduleId });
-    }
+    this.logger.log(`[submit] score=${score} passed=${passed}`);
 
-    // Only update if improved
-    if (!progress.score || score > progress.score) {
-      progress.score = score;
+    // Save or update progress
+    try {
+      let progress = await this.progressRepo.findOne({ where: { userId, moduleId } });
+      if (!progress) {
+        progress = this.progressRepo.create({ userId, moduleId });
+      }
+
+      // Only update if improved
+      if (!progress.score || score > progress.score) {
+        progress.score = score;
+      }
+      if (passed && !progress.completed) {
+        progress.completed = true;
+      }
+      await this.progressRepo.save(progress);
+      this.logger.log(`[submit] progress saved OK`);
+    } catch (err) {
+      this.logger.error(`[submit] ERROR saving progress: ${err?.message}`, err?.stack);
+      // Still return the result even if progress saving fails
     }
-    if (passed && !progress.completed) {
-      progress.completed = true;
-    }
-    await this.progressRepo.save(progress);
 
     return {
       score,
@@ -96,6 +108,11 @@ export class QuizzesService {
   }
 
   async getUserProgress(userId: string) {
-    return this.progressRepo.find({ where: { userId } });
+    try {
+      return await this.progressRepo.find({ where: { userId } });
+    } catch (err) {
+      this.logger.error(`[getUserProgress] ERROR: ${err?.message}`);
+      return [];
+    }
   }
 }
