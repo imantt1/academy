@@ -10,9 +10,23 @@ async function bootstrap() {
   // Security
   app.use(helmet());
 
-  // CORS
+  // CORS – accept all configured frontend origins
+  const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    process.env.FRONTEND_URL_ALT,
+    'http://localhost:3000',
+    'http://localhost:3001',
+  ].filter(Boolean);
+
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, Postman, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      // Also allow any *.vercel.app subdomain for preview deployments
+      if (/\.vercel\.app$/.test(origin)) return callback(null, true);
+      return callback(new Error(`CORS: origin ${origin} not allowed`), false);
+    },
     credentials: true,
   });
 

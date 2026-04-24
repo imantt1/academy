@@ -27,8 +27,20 @@ export default function RegisterPage() {
       await register(form);
       router.push('/dashboard');
     } catch (err: unknown) {
-      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
-      setError(typeof msg === 'string' ? msg : 'Error al registrarse. El email puede estar en uso.');
+      const axiosErr = err as { response?: { data?: { message?: string | string[] }; status?: number }; message?: string };
+      const serverMsg = axiosErr?.response?.data?.message;
+      if (typeof serverMsg === 'string') {
+        setError(serverMsg);
+      } else if (Array.isArray(serverMsg)) {
+        setError(serverMsg[0]);
+      } else if (axiosErr?.response?.status === 409) {
+        setError('Este email ya está registrado. Intenta iniciar sesión.');
+      } else if (!axiosErr?.response) {
+        // Network error (CORS, server down, etc.)
+        setError('No se pudo conectar con el servidor. Intenta de nuevo en unos segundos.');
+      } else {
+        setError('Error al registrarse. Por favor intenta de nuevo.');
+      }
     }
   };
 

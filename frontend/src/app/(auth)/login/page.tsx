@@ -19,8 +19,15 @@ export default function LoginPage() {
     try {
       await login(email, password);
       router.push('/dashboard');
-    } catch {
-      setError('Email o contraseña incorrectos. Intenta de nuevo.');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { status?: number }; message?: string };
+      if (!axiosErr?.response) {
+        setError('No se pudo conectar con el servidor. Intenta de nuevo en unos segundos.');
+      } else if (axiosErr?.response?.status === 401) {
+        setError('Email o contraseña incorrectos. Intenta de nuevo.');
+      } else {
+        setError('Error al iniciar sesión. Por favor intenta de nuevo.');
+      }
     }
   };
 
