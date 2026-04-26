@@ -62,7 +62,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="relative z-10">
           <Image
-            src="/logo-imantt-white.svg"
+            src="/logo-imantt-white.png"
             alt="Imantt Academy"
             width={200}
             height={44}
@@ -115,7 +115,7 @@ export default function LoginPage() {
           {/* Mobile logo */}
           <div className="mb-10 lg:hidden">
             <Image
-              src="/logo-imantt-navy.svg"
+              src="/logo-imantt-navy.png"
               alt="Imantt Academy"
               width={190}
               height={42}
@@ -218,45 +218,4 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ background: '#1E2D6B', color: '#fff' }}
-              onMouseEnter={e => { if (!isLoading) (e.currentTarget as HTMLElement).style.background = '#2E3F8F'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#1E2D6B'; }}
-            >
-              {isLoading
-                ? <><Loader2 size={16} className="animate-spin" /> Iniciando sesión…</>
-                : <><ArrowRight size={16} /> Iniciar sesión</>
-              }
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px" style={{ background: '#E8EBF0' }} />
-            <span className="text-xs font-medium" style={{ color: '#9AA0A6' }}>o</span>
-            <div className="flex-1 h-px" style={{ background: '#E8EBF0' }} />
-          </div>
-
-          {/* Register CTA */}
-          <Link
-            href="/register"
-            className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all"
-            style={{
-              background: '#fff',
-              color:      '#1E2D6B',
-              border:     '1.5px solid #1E2D6B',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#EEF1FA'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; }}
-          >
-            Crear cuenta gratis
-          </Link>
-
-          <p className="text-center text-xs mt-6" style={{ color: '#9AA0A6' }}>
-            Al continuar aceptas los términos de uso de Imantt Academy.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all

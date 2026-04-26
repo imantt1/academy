@@ -71,7 +71,7 @@ export default function LandingPage() {
       >
         <Link href="/" className="flex items-center">
           <Image
-            src="/logo-imantt-navy.svg"
+            src="/logo-imantt-navy.png"
             alt="Imantt Academy"
             width={190}
             height={40}
@@ -512,113 +512,4 @@ export default function LandingPage() {
                 boxShadow:  '0 8px 40px rgba(30,45,107,0.20)',
               }}
             >
-              <div className="h-2 w-full" style={{ background: 'linear-gradient(90deg, #D4AE0C, #F0C930, #D4AE0C)' }} />
-              <div className="p-8 text-center">
-                <Image
-                  src="/logo-imantt-white.svg"
-                  alt="Imantt Academy"
-                  width={160}
-                  height={36}
-                  style={{ height: 36, width: 'auto', margin: '0 auto 16px' }}
-                />
-                <p className="font-black text-xl mb-1 text-white">Certificado de Competencia</p>
-                <p className="text-sm mb-7" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                  Módulo 5 — Servicio Ácido API 15SA
-                </p>
-
-                <div
-                  className="rounded-xl p-5 mb-6"
-                  style={{ background: 'rgba(212,174,12,0.08)', border: '1px solid rgba(212,174,12,0.25)' }}
-                >
-                  <p className="font-bold text-lg text-white">Ing. Carlos Mendoza</p>
-                  <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                    ha demostrado competencia técnica con
-                  </p>
-                  <p className="font-black text-3xl mt-2" style={{ color: '#D4AE0C' }}>88%</p>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    de puntaje en la evaluación técnica
-                  </p>
-                </div>
-
-                <div className="flex justify-between text-[10px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                  <span>Norma: API Spec 15SA</span>
-                  <span>Emitido: Abril 2025</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FINAL CTA ───────────────────────────────────────────────── */}
-      <section
-        className="py-24 px-6 lg:px-12"
-        style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1E2D6B 100%)' }}
-      >
-        <div className="max-w-3xl mx-auto text-center">
-          <Image
-            src="/logo-imantt-white.svg"
-            alt="Imantt Academy"
-            width={180}
-            height={40}
-            style={{ height: 40, width: 'auto', margin: '0 auto 24px' }}
-          />
-          <h2 className="text-3xl font-black text-white mb-4">
-            Eleva tu perfil técnico en Oil &amp; Gas
-          </h2>
-          <p className="text-lg leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            Certificaciones técnicas basadas en normas API reales. El estándar de la industria para ingenieros de tubería termoplástica reforzada.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/register"
-              className="px-10 py-4 rounded-xl font-black text-base transition-all"
-              style={{ background: '#D4AE0C', color: '#0D1B3E', boxShadow: '0 4px 14px rgba(212,174,12,0.35)' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F0C930'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#D4AE0C'; }}
-            >
-              Crear cuenta gratis
-            </Link>
-            <Link
-              href="/login"
-              className="px-10 py-4 rounded-xl font-semibold text-base transition-all"
-              style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.18)' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.14)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; }}
-            >
-              Ya tengo cuenta
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FOOTER ──────────────────────────────────────────────────── */}
-      <footer className="py-8 px-6 lg:px-12 bg-white" style={{ borderTop: '1px solid #E8EBF0' }}>
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Image
-            src="/logo-imantt-navy.svg"
-            alt="Imantt Academy"
-            width={150}
-            height={34}
-            style={{ height: 34, width: 'auto' }}
-          />
-          <p className="text-xs text-center" style={{ color: '#9AA0A6' }}>
-            Contenido basado en normas API Spec 15S, 15SA, 15SIH y 17J documentadas.
-          </p>
-          <div className="flex gap-5">
-            <Link href="/login"    className="text-xs transition-colors" style={{ color: '#9AA0A6' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9AA0A6'; }}>
-              Iniciar sesión
-            </Link>
-            <Link href="/register" className="text-xs transition-colors" style={{ color: '#9AA0A6' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9AA0A6'; }}>
-              Registrarse
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
+              <div className="h-2 w-full" style={{ background: 'linear-gr

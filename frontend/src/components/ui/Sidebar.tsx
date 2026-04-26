@@ -32,7 +32,7 @@ export default function Sidebar() {
       <div className="px-5 py-5" style={{ borderBottom: '1px solid #E8EBF0' }}>
         <Link href="/dashboard" className="block">
           <Image
-            src="/logo-imantt-navy.svg"
+            src="/logo-imantt-navy.png"
             alt="Imantt Academy"
             width={190}
             height={42}
@@ -171,30 +171,4 @@ export default function Sidebar() {
               >
                 {user.email}
               </p>
-            </div>
-            {user.hasPremiumAccess && (
-              <Star size={14} style={{ color: '#D4AE0C' }} fill="#D4AE0C" className="shrink-0" />
-            )}
-          </div>
-        )}
-
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all group"
-          style={{ color: '#6A6F73' }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.background = '#FEF2F2';
-            (e.currentTarget as HTMLElement).style.color = '#DC2626';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.background = 'transparent';
-            (e.currentTarget as HTMLElement).style.color = '#6A6F73';
-          }}
-        >
-          <LogOut size={15} />
-          <span className="font-medium">Cerrar sesión</span>
-        </button>
-      </div>
-    </aside>
-  );
-}
+         
