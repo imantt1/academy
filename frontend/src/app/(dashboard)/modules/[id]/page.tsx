@@ -202,19 +202,24 @@ export default function ModuleDetailPage() {
                 .prose p { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1rem; }
                 .prose h1, .prose h2, .prose h3 { color: white; font-weight: 800; }
                 .prose h2 { color: #D4AE0C; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-                .prose h3 { color: #7B9FD4; font-size: 1rem; margin-top: 1.5rem; }
+                .prose h3 { color: #7B9FD4; font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
                 .prose strong { color: white; }
+                .prose em { color: rgba(255,255,255,0.6); }
                 .prose code { color: #D4AE0C; background: rgba(212,174,12,0.1); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.85em; }
-                .prose ul { color: rgba(255,255,255,0.7); }
-                .prose li { margin-bottom: 0.35rem; }
+                .prose ul { color: rgba(255,255,255,0.7); list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+                .prose ol { color: rgba(255,255,255,0.7); list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+                .prose li { margin-bottom: 0.4rem; line-height: 1.7; }
                 .prose li::marker { color: #7B9FD4; }
-                .prose table { width: 100%; border-collapse: collapse; }
-                .prose th { background: rgba(30,45,107,0.6); color: #D4AE0C; padding: 0.6rem 1rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-                .prose td { padding: 0.6rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); font-size: 0.9rem; }
-                .prose tr:hover td { background: rgba(255,255,255,0.02); }
-                .prose blockquote { border-left: 3px solid #D4AE0C; padding-left: 1rem; margin-left: 0; background: rgba(212,174,12,0.05); border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; }
-                .prose blockquote p { color: rgba(255,255,255,0.6); font-style: italic; margin: 0; }
-                .prose hr { border-color: rgba(255,255,255,0.08); margin: 2rem 0; }
+                .prose table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+                .prose thead tr { border-bottom: 2px solid rgba(212,174,12,0.4); }
+                .prose th { background: rgba(30,45,107,0.7); color: #D4AE0C; padding: 0.6rem 1rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.08); }
+                .prose td { padding: 0.6rem 1rem; border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.75); font-size: 0.9rem; vertical-align: top; }
+                .prose tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+                .prose tr:hover td { background: rgba(212,174,12,0.04); }
+                .prose blockquote { border-left: 3px solid #D4AE0C; margin-left: 0; margin-bottom: 1rem; background: rgba(212,174,12,0.06); border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; }
+                .prose blockquote p { color: rgba(255,255,255,0.65); font-style: italic; margin: 0; line-height: 1.6; }
+                .prose hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.75rem 0; }
+                .prose a { color: #7B9FD4; text-decoration: underline; }
               `}</style>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {activeLesson.content}
