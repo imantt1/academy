@@ -1,0 +1,28 @@
+<svg width="220" height="48" viewBox="0 0 220 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sun/wheel icon -->
+  <g transform="translate(24,24)">
+    <line x1="0" y1="-20" x2="0" y2="-13" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="0" y1="13" x2="0" y2="20" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-20" y1="0" x2="-13" y2="0" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="13" y1="0" x2="20" y2="0" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-14.1" y1="-14.1" x2="-9.2" y2="-9.2" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="9.2" y1="9.2" x2="14.1" y2="14.1" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="14.1" y1="-14.1" x2="9.2" y2="-9.2" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-9.2" y1="9.2" x2="-14.1" y2="14.1" stroke="#1E2D6B" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-7.7" y1="-18.5" x2="-5" y2="-12" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="5" y1="12" x2="7.7" y2="18.5" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="7.7" y1="-18.5" x2="5" y2="-12" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="-5" y1="12" x2="-7.7" y2="18.5" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="-18.5" y1="-7.7" x2="-12" y2="-5" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="12" y1="5" x2="18.5" y2="7.7" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="18.5" y1="-7.7" x2="12" y2="-5" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="-12" y1="5" x2="-18.5" y2="7.7" stroke="#1E2D6B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="8" fill="none" stroke="#1E2D6B" stroke-width="2"/>
+    <circle cx="0" cy="0" r="3" fill="#1E2D6B"/>
+  </g>
+  <line x1="54" y1="8" x2="54" y2="40" stroke="#1E2D6B" stroke-width="1" stroke-opacity="0.2"/>
+  <text x="62" y="22" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="17" fill="#1E2D6B" letter-spacing="0.5">Imantt</text>
+  <text x="62" y="36" font-family="'Segoe UI', Arial, sans-serif" font-weight="400" font-size="9" fill="#6A6F73" letter-spacing="0.2">Transforming Infrastructure</text>
+  <line x1="162" y1="10" x2="162" y2="38" stroke="#C8C8C8" stroke-width="1"/>
+  <text x="170" y="29" font-family="'Segoe UI', Arial, sans-serif" font-weight="600" font-size="14" fill="#1565C0" letter-spacing="0.3">Academy</text>
+</svg>

@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
+/* ── IMANTT ACADEMY — DESIGN TOKENS ─────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --ia-bg:           #F7F8FC;
+  --ia-bg-card:      #FFFFFF;
+  --ia-bg-sidebar:   #FFFFFF;
+
+  /* Brand */
+  --ia-navy:         #1E2D6B;
+  --ia-navy-dark:    #0D1B3E;
+  --ia-navy-light:   #2E3F8F;
+  --ia-gold:         #D4AE0C;
+  --ia-gold-dark:    #B8940A;
+  --ia-gold-light:   #F0C930;
+  --ia-steel:        #5BC8E8;
+
+  /* Text */
+  --ia-text:         #1C1D1F;
+  --ia-text-sub:     #6A6F73;
+  --ia-text-muted:   #9AA0A6;
+
+  /* Borders */
+  --ia-border:       #D1D7DC;
+  --ia-border-light: #E8EBF0;
+
+  /* Status */
+  --ia-success:      #1DA750;
+  --ia-success-bg:   #E8F5EC;
+  --ia-warning:      #F69C08;
+  --ia-warning-bg:   #FEF3DC;
+
+  /* Shadows */
+  --ia-shadow-sm:    0 1px 4px rgba(0,0,0,0.08);
+  --ia-shadow-md:    0 2px 12px rgba(0,0,0,0.10);
+  --ia-shadow-lg:    0 4px 24px rgba(0,0,0,0.13);
+
+  /* Legacy compatibility */
+  --background: var(--ia-bg);
+  --foreground: var(--ia-text);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--ia-bg);
+  --color-foreground: var(--ia-text);
+  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── BASE ────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ia-bg);
+  color: var(--ia-text);
+  font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ── UTILITY CLASSES ─────────────────────────────────────────────────── */
+.ia-card {
+  background: var(--ia-bg-card);
+  border: 1px solid var(--ia-border-light);
+  border-radius: 0.75rem;
+  box-shadow: var(--ia-shadow-sm);
+}
+
+.ia-card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.ia-card-hover:hover {
+  box-shadow: var(--ia-shadow-md);
+  transform: translateY(-2px);
+}
+
+.ia-btn-primary {
+  background: var(--ia-navy);
+  color: #fff;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.ia-btn-primary:hover {
+  background: var(--ia-navy-light);
+  box-shadow: 0 2px 8px rgba(30,45,107,0.3);
+}
+
+.ia-btn-gold {
+  background: var(--ia-gold);
+  color: var(--ia-navy-dark);
+  border-radius: 0.5rem;
+  font-weight: 700;
+  transition: background 0.15s ease;
+}
+.ia-btn-gold:hover {
+  background: var(--ia-gold-light);
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ia-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ia-text-muted); }

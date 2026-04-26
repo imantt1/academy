@@ -1,38 +1,60 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Loader2, ChevronRight, CheckCircle, Shield } from 'lucide-react';
+import { Eye, EyeOff, Loader2, ArrowRight, CheckCircle, Shield } from 'lucide-react';
 import { useAuthStore } from '@/store/auth.store';
 
-function ImanttLogo({ size = 48 }: { size?: number }) {
+const perks = [
+  '9 módulos técnicos especializados en RTP',
+  'Contenido basado en normas API documentadas',
+  'Quizzes con retroalimentación detallada',
+  'Certificados PDF verificables por módulo',
+  'Módulo premium API 17J — Offshore Deep Water',
+];
+
+/* Reutilizable para cada campo */
+function Field({
+  label, children,
+}: { label: string; children: React.ReactNode }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="30" fill="#D4AE0C" />
-      <rect x="29" y="2" width="6" height="10" rx="2" fill="#1E2D6B" />
-      <rect x="29" y="52" width="6" height="10" rx="2" fill="#1E2D6B" />
-      <rect x="2" y="29" width="10" height="6" rx="2" fill="#1E2D6B" />
-      <rect x="52" y="29" width="10" height="6" rx="2" fill="#1E2D6B" />
-      <rect x="10.5" y="10.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(-45 10.5 10.5)" />
-      <rect x="47.5" y="10.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(45 47.5 10.5)" />
-      <rect x="10.5" y="53.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(45 10.5 53.5)" />
-      <rect x="47.5" y="53.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(-45 47.5 53.5)" />
-      <circle cx="32" cy="32" r="14" fill="#1E2D6B" />
-      <circle cx="32" cy="32" r="7" fill="#D4AE0C" />
-    </svg>
+    <div>
+      <label
+        className="block text-xs font-bold uppercase tracking-wider mb-2"
+        style={{ color: '#6A6F73' }}
+      >
+        {label}
+      </label>
+      {children}
+    </div>
   );
 }
 
+const inputBase =
+  'w-full px-4 py-3 rounded-xl text-sm outline-none bg-white transition-all';
+const inputStyle = { border: '1px solid #D1D7DC', color: '#1C1D1F' };
+
+function onFocus(e: React.FocusEvent<HTMLInputElement>) {
+  (e.target as HTMLElement).style.borderColor = '#1E2D6B';
+  (e.target as HTMLElement).style.boxShadow   = '0 0 0 3px rgba(30,45,107,0.1)';
+}
+function onBlur(e: React.FocusEvent<HTMLInputElement>) {
+  (e.target as HTMLElement).style.borderColor = '#D1D7DC';
+  (e.target as HTMLElement).style.boxShadow   = 'none';
+}
+
 export default function RegisterPage() {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [form, setForm] = useState({
+    firstName: '', lastName: '', email: '', password: '',
+  });
   const [showPass, setShowPass] = useState(false);
-  const [error, setError] = useState('');
+  const [error,    setError]    = useState('');
   const { register, isLoading } = useAuthStore();
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,191 +67,259 @@ export default function RegisterPage() {
       await register(form);
       router.push('/dashboard');
     } catch (err: unknown) {
-      const axiosErr = err as { response?: { data?: { message?: string | string[] }; status?: number }; message?: string };
-      const serverMsg = axiosErr?.response?.data?.message;
-      if (typeof serverMsg === 'string') {
-        setError(serverMsg);
-      } else if (Array.isArray(serverMsg)) {
-        setError(serverMsg[0]);
-      } else if (axiosErr?.response?.status === 409) {
-        setError('Este email ya está registrado. Intenta iniciar sesión.');
-      } else if (!axiosErr?.response) {
-        setError('No se pudo conectar con el servidor. Verifica tu conexión.');
-      } else {
-        setError('Error al registrarse. Por favor intenta de nuevo.');
-      }
+      const ax = err as { response?: { data?: { message?: string | string[] }; status?: number } };
+      const msg = ax?.response?.data?.message;
+      if (typeof msg === 'string')       setError(msg);
+      else if (Array.isArray(msg))       setError(msg[0]);
+      else if (ax?.response?.status === 409) setError('Este email ya está registrado. Intenta iniciar sesión.');
+      else if (!ax?.response)            setError('No se pudo conectar con el servidor. Verifica tu conexión.');
+      else                               setError('Error al registrarse. Por favor intenta de nuevo.');
     }
   };
 
-  const inputStyle = {
-    background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(255,255,255,0.1)',
-  };
-
-  const focusStyle = (e: React.FocusEvent<HTMLInputElement>) => {
-    (e.target as HTMLElement).style.borderColor = 'rgba(212,174,12,0.6)';
-    (e.target as HTMLElement).style.background = 'rgba(212,174,12,0.05)';
-  };
-  const blurStyle = (e: React.FocusEvent<HTMLInputElement>) => {
-    (e.target as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)';
-    (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
-  };
-
-  const perks = [
-    '9 módulos técnicos especializados en RTP',
-    'Contenido basado en normas API documentadas',
-    'Quizzes con retroalimentación detallada',
-    'Certificados PDF verificables por módulo',
-    'Módulo premium API 17J — Offshore Deep Water',
-  ];
-
   return (
-    <div className="min-h-screen flex" style={{ background: '#070E20' }}>
+    <div className="min-h-screen flex" style={{ background: '#F7F8FC' }}>
 
-      {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 relative overflow-hidden"
-        style={{ background: 'linear-gradient(145deg, #0D1B3E 0%, #1E2D6B 50%, #0a1628 100%)' }}>
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #D4AE0C 0%, transparent 50%), radial-gradient(circle at 80% 20%, #7B9FD4 0%, transparent 40%)' }} />
+      {/* ── Left panel (brand) ─────────────────────────────────────── */}
+      <div
+        className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden"
+        style={{ background: 'linear-gradient(160deg, #0D1B3E 0%, #1E2D6B 55%, #162259 100%)' }}
+      >
+        {/* Decorative orbs */}
+        <div
+          className="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(212,174,12,0.14) 0%, transparent 65%)',
+            transform:  'translate(35%,-35%)',
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 w-64 h-64 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(91,200,232,0.07) 0%, transparent 65%)',
+            transform:  'translate(-40%,40%)',
+          }}
+        />
 
+        {/* Logo + copy */}
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-12">
-            <ImanttLogo />
-            <div>
-              <p className="text-white font-black text-2xl tracking-wide leading-none">IMANTT</p>
-              <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest">Academy</p>
-            </div>
-          </div>
+          <Image
+            src="/logo-imantt-white.svg"
+            alt="Imantt Academy"
+            width={200}
+            height={44}
+            priority
+            style={{ height: 44, width: 'auto', marginBottom: '2.5rem' }}
+          />
 
-          <h2 className="text-4xl font-black text-white leading-tight mb-4">
+          <h2
+            className="font-black leading-tight mb-4"
+            style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', color: '#fff' }}
+          >
             Únete a la<br />
             <span style={{ color: '#D4AE0C' }}>élite técnica</span><br />
             del sector RTP
           </h2>
-          <p className="text-white/50 text-lg leading-relaxed mb-10">
+          <p className="text-base leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Formación especializada basada exclusivamente en normas API reales. Sin teoría genérica.
           </p>
 
-          <div className="space-y-3">
-            {perks.map((perk) => (
-              <div key={perk} className="flex items-start gap-3 p-3 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <CheckCircle size={15} className="text-[#D4AE0C] shrink-0 mt-0.5" />
-                <p className="text-white/70 text-sm">{perk}</p>
+          <div className="space-y-2.5">
+            {perks.map(perk => (
+              <div
+                key={perk}
+                className="flex items-start gap-3 p-3 rounded-xl"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)' }}
+              >
+                <CheckCircle size={14} style={{ color: '#D4AE0C', marginTop: 2, flexShrink: 0 }} />
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>{perk}</p>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Footer note */}
         <div className="relative z-10 flex items-center gap-2">
-          <Shield size={14} className="text-[#D4AE0C]" />
-          <p className="text-white/30 text-xs">Contenido basado exclusivamente en normas API documentadas</p>
+          <Shield size={13} style={{ color: '#D4AE0C' }} />
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Contenido basado exclusivamente en normas API documentadas
+          </p>
         </div>
       </div>
 
-      {/* Right Panel */}
+      {/* ── Right panel (form) ─────────────────────────────────────── */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
 
           {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-10 lg:hidden">
-            <ImanttLogo />
-            <div>
-              <p className="text-white font-black text-xl tracking-wide">IMANTT</p>
-              <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest">Academy</p>
-            </div>
+          <div className="mb-10 lg:hidden">
+            <Image
+              src="/logo-imantt-navy.svg"
+              alt="Imantt Academy"
+              width={190}
+              height={42}
+              priority
+              style={{ height: 42, width: 'auto' }}
+            />
           </div>
 
+          {/* Heading */}
           <div className="mb-8">
-            <h1 className="text-3xl font-black text-white mb-2">Crear cuenta gratis</h1>
-            <p className="text-white/40">
+            <h1 className="text-2xl font-black mb-1" style={{ color: '#1C1D1F' }}>
+              Crear cuenta gratis
+            </h1>
+            <p className="text-sm" style={{ color: '#6A6F73' }}>
               ¿Ya tienes cuenta?{' '}
-              <Link href="/login" className="text-[#D4AE0C] hover:text-[#e8c514] font-semibold transition-colors">
+              <Link
+                href="/login"
+                className="font-semibold transition-colors"
+                style={{ color: '#1E2D6B' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#D4AE0C'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+              >
                 Inicia sesión
               </Link>
             </p>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">
-                  Nombre
-                </label>
+              <Field label="Nombre">
                 <input
                   name="firstName" value={form.firstName} onChange={handleChange}
                   required placeholder="Juan"
-                  className="w-full px-4 py-3.5 rounded-xl text-white text-sm outline-none transition-all placeholder-white/20"
-                  style={inputStyle}
-                  onFocus={focusStyle} onBlur={blurStyle}
+                  className={inputBase} style={inputStyle}
+                  onFocus={onFocus} onBlur={onBlur}
                 />
-              </div>
-              <div>
-                <label className="block text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">
-                  Apellido
-                </label>
+              </Field>
+              <Field label="Apellido">
                 <input
                   name="lastName" value={form.lastName} onChange={handleChange}
                   required placeholder="Pérez"
-                  className="w-full px-4 py-3.5 rounded-xl text-white text-sm outline-none transition-all placeholder-white/20"
-                  style={inputStyle}
-                  onFocus={focusStyle} onBlur={blurStyle}
+                  className={inputBase} style={inputStyle}
+                  onFocus={onFocus} onBlur={onBlur}
                 />
-              </div>
+              </Field>
             </div>
 
-            <div>
-              <label className="block text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">
-                Correo electrónico
-              </label>
+            <Field label="Correo electrónico">
               <input
                 name="email" type="email" value={form.email} onChange={handleChange}
                 required placeholder="tu@email.com"
-                className="w-full px-4 py-3.5 rounded-xl text-white text-sm outline-none transition-all placeholder-white/20"
-                style={inputStyle}
-                onFocus={focusStyle} onBlur={blurStyle}
+                className={inputBase} style={inputStyle}
+                onFocus={onFocus} onBlur={onBlur}
               />
-            </div>
+            </Field>
 
-            <div>
-              <label className="block text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">
-                Contraseña
-              </label>
+            <Field label="Contraseña">
               <div className="relative">
                 <input
-                  name="password" type={showPass ? 'text' : 'password'} value={form.password}
-                  onChange={handleChange} required minLength={6} placeholder="Mínimo 6 caracteres"
-                  className="w-full px-4 py-3.5 pr-12 rounded-xl text-white text-sm outline-none transition-all placeholder-white/20"
+                  name="password"
+                  type={showPass ? 'text' : 'password'}
+                  value={form.password}
+                  onChange={handleChange}
+                  required minLength={6}
+                  placeholder="Mínimo 6 caracteres"
+                  className={`${inputBase} pr-12`}
                   style={inputStyle}
-                  onFocus={focusStyle} onBlur={blurStyle}
+                  onFocus={onFocus} onBlur={onBlur}
                 />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: '#9AA0A6' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9AA0A6'; }}
+                >
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-            </div>
 
+              {/* Password strength hint */}
+              {form.password.length > 0 && (
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex gap-1 flex-1">
+                    {[2, 4, 6].map(thresh => (
+                      <div
+                        key={thresh}
+                        className="h-1 flex-1 rounded-full transition-all"
+                        style={{
+                          background: form.password.length >= thresh
+                            ? thresh <= 2 ? '#DC2626'
+                              : thresh <= 4 ? '#D4AE0C'
+                              : '#1DA750'
+                            : '#E8EBF0',
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <span
+                    className="text-[10px] font-medium shrink-0"
+                    style={{
+                      color: form.password.length < 4 ? '#DC2626'
+                           : form.password.length < 6 ? '#B8940A'
+                           : '#1DA750',
+                    }}
+                  >
+                    {form.password.length < 4 ? 'Débil'
+                     : form.password.length < 6 ? 'Regular'
+                     : 'Segura'}
+                  </span>
+                </div>
+              )}
+            </Field>
+
+            {/* Error */}
             {error && (
-              <div className="px-4 py-3 rounded-xl text-sm text-red-400"
-                style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
+              <div
+                className="px-4 py-3 rounded-xl text-sm font-medium"
+                style={{ background: '#FEF2F2', border: '1px solid #FCA5A5', color: '#DC2626' }}
+              >
                 {error}
               </div>
             )}
 
-            <button type="submit" disabled={isLoading}
-              className="w-full py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}
-              onMouseEnter={e => { if (!isLoading) (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #e8c514, #D4AE0C)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #D4AE0C, #b8940a)'; }}
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ background: '#1E2D6B', color: '#fff' }}
+              onMouseEnter={e => { if (!isLoading) (e.currentTarget as HTMLElement).style.background = '#2E3F8F'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#1E2D6B'; }}
             >
-              {isLoading ? <Loader2 size={16} className="animate-spin" /> : <ChevronRight size={16} />}
-              {isLoading ? 'Creando cuenta...' : 'Crear cuenta gratis'}
+              {isLoading
+                ? <><Loader2 size={16} className="animate-spin" /> Creando cuenta…</>
+                : <><ArrowRight size={16} /> Crear cuenta gratis</>
+              }
             </button>
-
-            <p className="text-center text-xs text-white/20">
-              Al registrarte aceptas los términos de servicio de Imantt Academy.
-            </p>
           </form>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px" style={{ background: '#E8EBF0' }} />
+            <span className="text-xs font-medium" style={{ color: '#9AA0A6' }}>o</span>
+            <div className="flex-1 h-px" style={{ background: '#E8EBF0' }} />
+          </div>
+
+          {/* Login CTA */}
+          <Link
+            href="/login"
+            className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all"
+            style={{ background: '#fff', color: '#1E2D6B', border: '1.5px solid #1E2D6B' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#EEF1FA'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; }}
+          >
+            Ya tengo cuenta
+          </Link>
+
+          <p className="text-center text-xs mt-6" style={{ color: '#9AA0A6' }}>
+            Al registrarte aceptas los términos de servicio de Imantt Academy.
+          </p>
         </div>
       </div>
     </div>

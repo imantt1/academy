@@ -1,213 +1,284 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
-// SVG Components
-function ImanttWheelLogo({ size = 40 }: { size?: number }) {
-  // Imantt gear/wheel logo — engineering identity
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="30" fill="#D4AE0C" />
-      {/* Gear teeth */}
-      <rect x="29" y="2" width="6" height="10" rx="2" fill="#1E2D6B" />
-      <rect x="29" y="52" width="6" height="10" rx="2" fill="#1E2D6B" />
-      <rect x="2" y="29" width="10" height="6" rx="2" fill="#1E2D6B" />
-      <rect x="52" y="29" width="10" height="6" rx="2" fill="#1E2D6B" />
-      <rect x="10.5" y="10.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(-45 10.5 10.5)" />
-      <rect x="47.5" y="10.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(45 47.5 10.5)" />
-      <rect x="10.5" y="53.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(45 10.5 53.5)" />
-      <rect x="47.5" y="53.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(-45 47.5 53.5)" />
-      {/* Inner gear circle */}
-      <circle cx="32" cy="32" r="14" fill="#1E2D6B" />
-      <circle cx="32" cy="32" r="7" fill="#D4AE0C" />
-    </svg>
-  );
-}
+/* ── data ──────────────────────────────────────────────────────────── */
+const modules = [
+  { num: 1, norm: 'API 15S',    title: 'Fundamentos y Clasificación RTP',          level: 'Base',        premium: false },
+  { num: 2, norm: 'API 15S',    title: 'Diseño y Calificación de Producto',         level: 'Base',        premium: false },
+  { num: 3, norm: 'API 15S',    title: 'Fittings y Sistemas de Unión',              level: 'Base',        premium: false },
+  { num: 4, norm: 'API RP 15S', title: 'Instalación y Prueba Hidrostática',         level: 'Intermedio',  premium: false },
+  { num: 5, norm: 'API 15SA',   title: 'Servicio Ácido — H₂S y CO₂',              level: 'Intermedio',  premium: false },
+  { num: 6, norm: 'API 15SIH',  title: 'Inyección de Alta Presión',                 level: 'Avanzado',    premium: false },
+  { num: 7, norm: 'Integridad', title: 'Gestión de Integridad en Operación',        level: 'Avanzado',    premium: false },
+  { num: 8, norm: 'API 15S',    title: 'RTP en Ambiente Marino y Costero',          level: 'Avanzado',    premium: false },
+  { num: 9, norm: 'API 17J',    title: 'Flexibles Submarinos — Offshore Deep Water', level: 'Premium',    premium: true  },
+];
 
-function CheckIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <circle cx="8" cy="8" r="8" fill="rgba(212,174,12,0.15)" />
-      <path d="M5 8l2 2 4-4" stroke="#D4AE0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+const norms = [
+  { code: 'API Spec 15S',   full: 'Spoolable Reinforced Plastic Line Pipe',  desc: 'Requisitos de diseño, fabricación, ensayos y calificación de RTP para petróleo y gas.' },
+  { code: 'API Spec 15SA',  full: 'Sour Service',                             desc: 'Extensión para ambientes con H₂S y CO₂, resistencia a SSC, HIC y blistering.' },
+  { code: 'API Spec 15SIH', full: 'High Pressure Injection',                  desc: 'Inyección de alta presión, fatiga cíclica y monitoreo del espacio anular.' },
+  { code: 'API Spec 17J',   full: 'Unbonded Flexible Pipe',                   desc: 'Flexibles submarinos para aplicaciones offshore en aguas profundas.' },
+];
 
-function ArrowRight() {
+const stats = [
+  { v: '9',    l: 'Módulos técnicos' },
+  { v: '4',    l: 'Normas API' },
+  { v: '70%+', l: 'Puntaje mínimo' },
+  { v: 'PDF',  l: 'Certificado' },
+];
+
+const levelColors: Record<string, { bg: string; text: string; border: string }> = {
+  Base:       { bg: '#EEF1FA', text: '#1E2D6B', border: '#C5CEED' },
+  Intermedio: { bg: '#E8F5EC', text: '#1DA750', border: '#A8DFB8' },
+  Avanzado:   { bg: '#EFF6FF', text: '#1565C0', border: '#BFDBFE' },
+  Premium:    { bg: '#FEF8DC', text: '#B8940A', border: '#F0D060' },
+};
+
+const certBenefits = [
+  { title: 'Certificados independientes por módulo',  desc: 'No necesitas completar todo el programa. Cada módulo es autónomo.' },
+  { title: 'PDF verificable con datos técnicos',      desc: 'Incluye norma de referencia, puntaje obtenido, fecha y módulo aprobado.' },
+  { title: 'Progresión desde base hasta offshore',    desc: 'Desde fundamentos API 15S hasta flexibles submarinos API 17J.' },
+];
+
+/* ── icons ─────────────────────────────────────────────────────────── */
+function ArrowRight({ size = 16 }: { size?: number }) {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
+function Check() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
+      <circle cx="9" cy="9" r="9" fill="#EEF1FA" />
+      <path d="M5.5 9l2.5 2.5 4.5-5" stroke="#1E2D6B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
-const modules = [
-  { num: 1, norm: 'API 15S', title: 'Fundamentos y Clasificación RTP', level: 'Base', color: '#1E2D6B' },
-  { num: 2, norm: 'API 15S', title: 'Diseño y Calificación de Producto', level: 'Base', color: '#1E2D6B' },
-  { num: 3, norm: 'API 15S', title: 'Fittings y Sistemas de Unión', level: 'Base', color: '#1E2D6B' },
-  { num: 4, norm: 'API RP 15S', title: 'Instalación y Prueba Hidrostática', level: 'Intermedio', color: '#0a3d62' },
-  { num: 5, norm: 'API 15SA', title: 'Servicio Ácido — H₂S y CO₂', level: 'Intermedio', color: '#0a3d62' },
-  { num: 6, norm: 'API 15SIH', title: 'Inyección de Alta Presión', level: 'Avanzado', color: '#1a1a2e' },
-  { num: 7, norm: 'Integridad', title: 'Gestión de Integridad en Operación', level: 'Avanzado', color: '#1a1a2e' },
-  { num: 8, norm: 'API 15S', title: 'RTP en Ambiente Marino y Costero', level: 'Avanzado', color: '#1a1a2e' },
-  { num: 9, norm: 'API 17J', title: 'Flexibles Submarinos — Offshore Deep Water', level: 'Premium', color: '#2d1b00', premium: true },
-];
-
-const norms = [
-  { code: 'API Spec 15S', full: 'Spoolable Reinforced Plastic Line Pipe', desc: 'Requisitos de diseño, fabricación, ensayos y calificación de RTP para petróleo y gas.' },
-  { code: 'API Spec 15SA', full: 'Sour Service', desc: 'Extensión para ambientes con H₂S y CO₂, resistencia a SSC, HIC y blistering.' },
-  { code: 'API Spec 15SIH', full: 'High Pressure Injection', desc: 'Inyección de alta presión, fatiga cíclica y monitoreo del espacio anular.' },
-  { code: 'API Spec 17J', full: 'Unbonded Flexible Pipe', desc: 'Flexibles submarinos para aplicaciones offshore en aguas profundas.' },
-];
-
+/* ── page ──────────────────────────────────────────────────────────── */
 export default function LandingPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#070E20', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen" style={{ background: '#F7F8FC', fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif" }}>
 
-      {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-4 flex items-center justify-between"
-        style={{ background: 'rgba(7,14,32,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="flex items-center gap-3">
-          <ImanttWheelLogo size={36} />
-          <div>
-            <p className="text-white font-black text-lg leading-none tracking-wide">Imantt</p>
-            <p className="text-[#D4AE0C] text-[10px] font-bold uppercase tracking-widest leading-none">Academy</p>
-          </div>
-        </div>
+      {/* ── NAVBAR ──────────────────────────────────────────────────── */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-3 flex items-center justify-between bg-white"
+        style={{ borderBottom: '1px solid #E8EBF0', boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}
+      >
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo-imantt-navy.svg"
+            alt="Imantt Academy"
+            width={190}
+            height={40}
+            priority
+            style={{ height: 38, width: 'auto' }}
+          />
+        </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <a href="#modulos" className="text-white/60 hover:text-white text-sm font-medium transition-colors">Módulos</a>
-          <a href="#normas" className="text-white/60 hover:text-white text-sm font-medium transition-colors">Normas API</a>
-          <a href="#certificaciones" className="text-white/60 hover:text-white text-sm font-medium transition-colors">Certificaciones</a>
+          {[['#modulos','Módulos'],['#normas','Normas API'],['#certificaciones','Certificaciones']].map(([href, label]) => (
+            <a
+              key={href}
+              href={href}
+              className="text-sm font-medium transition-colors"
+              style={{ color: '#6A6F73' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#6A6F73'; }}
+            >
+              {label}
+            </a>
+          ))}
         </div>
 
         <div className="flex items-center gap-3">
-          <Link href="/login" className="text-white/70 hover:text-white text-sm font-medium transition-colors px-4 py-2 rounded-lg hidden sm:block"
-            style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+          <Link
+            href="/login"
+            className="hidden sm:block text-sm font-semibold px-4 py-2 rounded-lg transition-all"
+            style={{ color: '#1E2D6B', border: '1.5px solid #1E2D6B' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#EEF1FA'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+          >
             Iniciar sesión
           </Link>
-          <Link href="/register"
-            className="text-sm font-bold px-5 py-2.5 rounded-xl transition-all"
-            style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}>
+          <Link
+            href="/register"
+            className="text-sm font-bold px-5 py-2.5 rounded-lg transition-all"
+            style={{ background: '#1E2D6B', color: '#fff' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#2E3F8F'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#1E2D6B'; }}
+          >
             Comenzar gratis
           </Link>
         </div>
       </nav>
 
-      {/* ── HERO ────────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-20 px-6 lg:px-12 overflow-hidden">
-        {/* Background gradient orbs */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full opacity-8"
-            style={{ background: 'radial-gradient(circle, rgba(212,174,12,0.12) 0%, transparent 70%)' }} />
-          <div className="absolute top-40 right-1/4 w-96 h-96 rounded-full opacity-8"
-            style={{ background: 'radial-gradient(circle, rgba(30,45,107,0.3) 0%, transparent 70%)' }} />
+      {/* ── HERO ────────────────────────────────────────────────────── */}
+      <section className="relative pt-36 pb-24 px-6 lg:px-12 overflow-hidden">
+        {/* Subtle background shapes */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div
+            className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full"
+            style={{ background: 'radial-gradient(circle, rgba(30,45,107,0.06) 0%, transparent 65%)' }}
+          />
+          <div
+            className="absolute bottom-0 -left-20 w-96 h-96 rounded-full"
+            style={{ background: 'radial-gradient(circle, rgba(212,174,12,0.08) 0%, transparent 65%)' }}
+          />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col lg:flex-row items-start gap-12">
+          <div className="flex flex-col lg:flex-row items-start gap-16">
 
-            {/* Left: Hero content */}
+            {/* Left: copy */}
             <div className="flex-1 max-w-2xl">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8"
-                style={{ background: 'rgba(212,174,12,0.1)', border: '1px solid rgba(212,174,12,0.3)' }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AE0C] animate-pulse" />
-                <span className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest">
+              <div
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8"
+                style={{ background: '#EEF1FA', border: '1px solid #C5CEED' }}
+              >
+                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#1E2D6B' }} />
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1E2D6B' }}>
                   Certificación Técnica · Oil &amp; Gas 2025
                 </span>
               </div>
 
-              <h1 className="font-black text-white leading-tight mb-6" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', letterSpacing: '-0.02em' }}>
-                Certificación en<br />
-                <span style={{ color: '#D4AE0C' }}>Tuberías RTP</span><br />
-                según normas API
+              <h1
+                className="font-black leading-tight mb-6"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', letterSpacing: '-0.02em', color: '#1C1D1F' }}
+              >
+                Certificación en{' '}
+                <span style={{ color: '#1E2D6B' }}>Tuberías RTP</span>{' '}
+                según normas{' '}
+                <span
+                  style={{
+                    background: 'linear-gradient(135deg, #D4AE0C, #F0C930)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  API
+                </span>
               </h1>
 
-              <p className="text-white/50 text-lg leading-relaxed mb-10 max-w-lg">
-                La formación técnica más completa en <strong className="text-white/80">Reinforced Thermoplastic Pipe</strong> para ingenieros, inspectores y técnicos del sector Oil &amp; Gas. Basada en API Spec 15S, 15SA, 15SIH y 17J.
+              <p className="text-lg leading-relaxed mb-10 max-w-lg" style={{ color: '#6A6F73' }}>
+                La formación técnica más completa en{' '}
+                <strong style={{ color: '#1C1D1F' }}>Reinforced Thermoplastic Pipe</strong>{' '}
+                para ingenieros, inspectores y técnicos del sector Oil &amp; Gas. Basada en API Spec 15S, 15SA, 15SIH y 17J.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Link href="/register"
+                <Link
+                  href="/register"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-black text-base transition-all"
-                  style={{ background: 'linear-gradient(135deg, #D4AE0C, #c9a409)', color: '#0D1B3E' }}>
-                  Comenzar curso gratis
-                  <ArrowRight />
+                  style={{ background: '#1E2D6B', color: '#fff', boxShadow: '0 4px 14px rgba(30,45,107,0.3)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#2E3F8F'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#1E2D6B'; }}
+                >
+                  Comenzar curso gratis <ArrowRight />
                 </Link>
-                <a href="#modulos"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-base text-white/70 hover:text-white transition-all"
-                  style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+                <a
+                  href="#modulos"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-base transition-all"
+                  style={{ background: '#fff', color: '#1E2D6B', border: '1.5px solid #D1D7DC' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#1E2D6B'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#D1D7DC'; }}
+                >
                   Ver programa
                 </a>
               </div>
 
-              {/* Social proof */}
-              <div className="flex items-center gap-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                {[
-                  { v: '9', l: 'Módulos técnicos' },
-                  { v: '4', l: 'Normas API cubiertas' },
-                  { v: '70%+', l: 'Puntaje mínimo' },
-                  { v: 'PDF', l: 'Certificado verificable' },
-                ].map(({ v, l }) => (
-                  <div key={l} className="text-center">
-                    <p className="text-[#D4AE0C] font-black text-xl">{v}</p>
-                    <p className="text-white/30 text-[10px] leading-tight mt-0.5">{l}</p>
+              {/* Stats */}
+              <div
+                className="flex items-center gap-8 pt-6"
+                style={{ borderTop: '1px solid #E8EBF0' }}
+              >
+                {stats.map(({ v, l }) => (
+                  <div key={l}>
+                    <p className="font-black text-xl" style={{ color: '#1E2D6B' }}>{v}</p>
+                    <p className="text-[10px] font-medium mt-0.5" style={{ color: '#9AA0A6' }}>{l}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right: Program summary card */}
-            <div className="w-full lg:w-96 rounded-2xl overflow-hidden shrink-0"
-              style={{ background: 'rgba(13,27,62,0.8)', border: '1px solid rgba(123,159,212,0.2)', backdropFilter: 'blur(8px)' }}>
-              <div className="px-6 pt-6 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <p className="text-[#7B9FD4] text-[10px] font-bold uppercase tracking-widest mb-1">Resumen del programa</p>
-                <p className="text-white font-bold text-sm">Certificación Técnica RTP</p>
+            {/* Right: program card */}
+            <div
+              className="w-full lg:w-96 rounded-2xl overflow-hidden shrink-0 bg-white"
+              style={{ border: '1px solid #E8EBF0', boxShadow: '0 8px 32px rgba(30,45,107,0.10)' }}
+            >
+              {/* Card header */}
+              <div className="px-6 pt-6 pb-4" style={{ borderBottom: '1px solid #F0F2F8' }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#9AA0A6' }}>
+                  Resumen del programa
+                </p>
+                <p className="font-bold text-base" style={{ color: '#1C1D1F' }}>Certificación Técnica RTP</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-px p-0" style={{ background: 'rgba(255,255,255,0.05)' }}>
+              {/* Stats grid */}
+              <div className="grid grid-cols-2">
                 {[
-                  { v: '9', l: 'Módulos técnicos', c: '#D4AE0C' },
-                  { v: '27', l: 'Lecciones', c: '#7B9FD4' },
-                  { v: '~12h', l: 'Duración total', c: '#10B981' },
-                  { v: '70%', l: 'Aprobación mínima', c: '#D4AE0C' },
-                ].map(({ v, l, c }) => (
-                  <div key={l} className="p-5 text-center" style={{ background: 'rgba(13,27,62,0.6)' }}>
+                  { v: '9',    l: 'Módulos técnicos', c: '#1E2D6B' },
+                  { v: '27',   l: 'Lecciones',        c: '#1565C0' },
+                  { v: '~12h', l: 'Duración total',   c: '#1DA750' },
+                  { v: '70%',  l: 'Aprobación mín.',  c: '#D4AE0C' },
+                ].map(({ v, l, c }, i) => (
+                  <div
+                    key={l}
+                    className="p-5 text-center"
+                    style={{
+                      borderRight:  i % 2 === 0 ? '1px solid #F0F2F8' : 'none',
+                      borderBottom: i < 2       ? '1px solid #F0F2F8' : 'none',
+                    }}
+                  >
                     <p className="font-black text-2xl" style={{ color: c }}>{v}</p>
-                    <p className="text-white/40 text-[11px] mt-1">{l}</p>
+                    <p className="text-[11px] mt-1" style={{ color: '#9AA0A6' }}>{l}</p>
                   </div>
                 ))}
               </div>
 
+              {/* Norm pills + checklist */}
               <div className="p-5">
-                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-3">Normas RTP cubiertas</p>
-                <div className="flex flex-wrap gap-2">
-                  {['API 15S', 'API 15SA', 'API 15SIH', 'API 17J'].map((n) => (
-                    <span key={n} className="text-xs font-bold px-3 py-1 rounded-full"
-                      style={{ background: 'rgba(212,174,12,0.12)', color: '#D4AE0C', border: '1px solid rgba(212,174,12,0.3)' }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: '#9AA0A6' }}>
+                  Normas RTP cubiertas
+                </p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {['API 15S','API 15SA','API 15SIH','API 17J'].map(n => (
+                    <span
+                      key={n}
+                      className="text-xs font-bold px-3 py-1 rounded-full"
+                      style={{ background: '#EEF1FA', color: '#1E2D6B', border: '1px solid #C5CEED' }}
+                    >
                       {n}
                     </span>
                   ))}
                 </div>
 
-                <div className="mt-5 space-y-2">
+                <div className="space-y-2 mb-5">
                   {[
                     'Contenido basado en normas API reales',
                     'Sin contenido genérico ni hallucinations',
                     'Certificado PDF por módulo aprobado',
                     'Módulo offshore API 17J incluido (Premium)',
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-2">
-                      <CheckIcon />
-                      <span className="text-white/60 text-xs">{item}</span>
+                  ].map(item => (
+                    <div key={item} className="flex items-start gap-2">
+                      <Check />
+                      <span className="text-xs" style={{ color: '#6A6F73' }}>{item}</span>
                     </div>
                   ))}
                 </div>
 
-                <Link href="/register"
-                  className="mt-5 flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-black transition-all"
-                  style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}>
-                  Comenzar gratis
-                  <ArrowRight />
+                <Link
+                  href="/register"
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-black transition-all"
+                  style={{ background: '#1E2D6B', color: '#fff' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#2E3F8F'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#1E2D6B'; }}
+                >
+                  Comenzar gratis <ArrowRight />
                 </Link>
               </div>
             </div>
@@ -215,23 +286,28 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── API STANDARDS STRIP ────────────────────────────────────────────── */}
-      <section className="py-8 px-6 lg:px-12" style={{ background: 'rgba(30,45,107,0.2)', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* ── API STANDARDS STRIP ─────────────────────────────────────── */}
+      <section
+        className="py-6 px-6 lg:px-12"
+        style={{ background: '#fff', borderTop: '1px solid #E8EBF0', borderBottom: '1px solid #E8EBF0' }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center gap-6">
-            <p className="text-white/30 text-xs font-bold uppercase tracking-widest shrink-0">Basado en:</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest shrink-0" style={{ color: '#9AA0A6' }}>
+              Basado en:
+            </p>
             <div className="flex flex-wrap items-center gap-6">
               {[
-                { code: 'API Spec 15S', desc: 'Spoolable RTP — Diseño y Calificación' },
-                { code: 'API Spec 15SA', desc: 'Sour Service — H₂S / CO₂' },
+                { code: 'API Spec 15S',   desc: 'Spoolable RTP — Diseño y Calificación' },
+                { code: 'API Spec 15SA',  desc: 'Sour Service — H₂S / CO₂' },
                 { code: 'API Spec 15SIH', desc: 'High Pressure Injection' },
-                { code: 'API Spec 17J', desc: 'Unbonded Flexible Pipe' },
+                { code: 'API Spec 17J',   desc: 'Unbonded Flexible Pipe' },
               ].map(({ code, desc }) => (
                 <div key={code} className="flex items-center gap-3">
-                  <div className="h-6 w-px bg-white/10 hidden sm:block" />
+                  <div className="h-6 w-px hidden sm:block" style={{ background: '#E8EBF0' }} />
                   <div>
-                    <p className="text-white font-bold text-sm">{code}</p>
-                    <p className="text-white/30 text-[10px]">{desc}</p>
+                    <p className="text-sm font-bold" style={{ color: '#1C1D1F' }}>{code}</p>
+                    <p className="text-[10px]" style={{ color: '#9AA0A6' }}>{desc}</p>
                   </div>
                 </div>
               ))}
@@ -240,93 +316,150 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── MODULES GRID ────────────────────────────────────────────────────── */}
+      {/* ── MODULES GRID ────────────────────────────────────────────── */}
       <section id="modulos" className="py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest mb-2">Programa académico</p>
-            <h2 className="text-3xl font-black text-white mb-3">9 módulos de alta especialización</h2>
-            <p className="text-white/40 max-w-xl">Contenido progresivo desde fundamentos hasta aplicaciones offshore. Cada módulo cuenta con lecciones técnicas y evaluación independiente.</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#D4AE0C' }}>
+              Programa académico
+            </p>
+            <h2 className="text-3xl font-black mb-3" style={{ color: '#1C1D1F' }}>
+              9 módulos de alta especialización
+            </h2>
+            <p className="max-w-xl" style={{ color: '#6A6F73' }}>
+              Contenido progresivo desde fundamentos hasta aplicaciones offshore. Cada módulo cuenta con lecciones técnicas y evaluación independiente.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {modules.map((m) => (
-              <div key={m.num} className="relative rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1"
-                style={{ background: m.premium ? 'rgba(45,27,0,0.6)' : 'rgba(255,255,255,0.03)', border: m.premium ? '1px solid rgba(212,174,12,0.3)' : '1px solid rgba(255,255,255,0.07)' }}>
-                {/* Top accent */}
-                <div className="h-1" style={{ background: m.premium ? 'linear-gradient(90deg, #D4AE0C, #f0c930)' : m.level === 'Avanzado' ? '#7B9FD4' : '#1E2D6B' }} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {modules.map(m => {
+              const lc = levelColors[m.level];
+              return (
+                <div
+                  key={m.num}
+                  className="bg-white rounded-xl overflow-hidden transition-all duration-200 flex flex-col"
+                  style={{
+                    border:     m.premium ? '1px solid #F0D060' : '1px solid #E8EBF0',
+                    boxShadow:  '0 1px 4px rgba(0,0,0,0.06)',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(30,45,107,0.10)';
+                    (e.currentTarget as HTMLElement).style.transform  = 'translateY(-3px)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+                    (e.currentTarget as HTMLElement).style.transform  = 'translateY(0)';
+                  }}
+                >
+                  {/* Accent bar */}
+                  <div
+                    className="h-1.5 w-full"
+                    style={{ background: m.premium ? '#D4AE0C' : m.level === 'Avanzado' ? '#1565C0' : m.level === 'Intermedio' ? '#1DA750' : '#1E2D6B' }}
+                  />
 
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0"
-                      style={{ background: m.premium ? 'rgba(212,174,12,0.2)' : 'rgba(30,45,107,0.6)', color: m.premium ? '#D4AE0C' : '#7B9FD4' }}>
-                      {String(m.num).padStart(2, '0')}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                        style={{ background: 'rgba(123,159,212,0.1)', color: '#7B9FD4', border: '1px solid rgba(123,159,212,0.2)' }}>
-                        {m.norm}
-                      </span>
-                      {m.premium && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                          style={{ background: 'rgba(212,174,12,0.15)', color: '#D4AE0C', border: '1px solid rgba(212,174,12,0.4)' }}>
-                          PREMIUM
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-start justify-between mb-4">
+                      {/* Order badge */}
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0"
+                        style={{ background: m.premium ? '#FEF8DC' : '#EEF1FA', color: m.premium ? '#B8940A' : '#1E2D6B' }}
+                      >
+                        {String(m.num).padStart(2, '0')}
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                        <span
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                          style={{ background: '#EEF1FA', color: '#1E2D6B', border: '1px solid #C5CEED' }}
+                        >
+                          {m.norm}
                         </span>
-                      )}
+                        {m.premium && (
+                          <span
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                            style={{ background: '#FEF8DC', color: '#B8940A', border: '1px solid #F0D060' }}
+                          >
+                            PREMIUM
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <h3 className="font-bold text-white text-sm leading-snug mb-2">{m.title}</h3>
+                    <h3 className="font-bold text-base leading-snug mb-3 flex-1" style={{ color: '#1C1D1F' }}>
+                      {m.title}
+                    </h3>
 
-                  <div className="flex items-center gap-2 mt-4">
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded"
-                      style={{
-                        background: m.level === 'Premium' ? 'rgba(212,174,12,0.1)' : m.level === 'Avanzado' ? 'rgba(123,159,212,0.1)' : m.level === 'Intermedio' ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.05)',
-                        color: m.level === 'Premium' ? '#D4AE0C' : m.level === 'Avanzado' ? '#7B9FD4' : m.level === 'Intermedio' ? '#10B981' : 'rgba(255,255,255,0.4)',
-                      }}>
-                      {m.level}
-                    </span>
-                    <span className="text-white/20 text-[10px]">3 lecciones · Evaluación técnica</span>
+                    <div className="flex items-center justify-between mt-auto">
+                      <span
+                        className="text-[10px] font-bold px-2.5 py-1 rounded-full"
+                        style={{ background: lc.bg, color: lc.text, border: `1px solid ${lc.border}` }}
+                      >
+                        {m.level}
+                      </span>
+                      <span className="text-[10px]" style={{ color: '#9AA0A6' }}>
+                        3 lecciones · Evaluación
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-10 text-center">
-            <Link href="/register"
+            <Link
+              href="/register"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-sm transition-all"
-              style={{ background: 'rgba(30,45,107,0.8)', color: '#7B9FD4', border: '1px solid rgba(123,159,212,0.3)' }}>
-              Acceder a todos los módulos gratis
-              <ArrowRight />
+              style={{ background: '#fff', color: '#1E2D6B', border: '1.5px solid #1E2D6B', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#EEF1FA'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; }}
+            >
+              Acceder a todos los módulos gratis <ArrowRight />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── API NORMS ───────────────────────────────────────────────────────── */}
-      <section id="normas" className="py-20 px-6 lg:px-12"
-        style={{ background: 'rgba(13,27,62,0.3)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* ── API NORMS ───────────────────────────────────────────────── */}
+      <section id="normas" className="py-20 px-6 lg:px-12" style={{ background: '#fff', borderTop: '1px solid #E8EBF0' }}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest mb-2">Marco normativo</p>
-            <h2 className="text-3xl font-black text-white mb-3">Normas API de referencia</h2>
-            <p className="text-white/40 max-w-xl">Todo el contenido está basado exclusivamente en especificaciones API publicadas. Sin contenido genérico ni información no documentada.</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#D4AE0C' }}>
+              Marco normativo
+            </p>
+            <h2 className="text-3xl font-black mb-3" style={{ color: '#1C1D1F' }}>Normas API de referencia</h2>
+            <p className="max-w-xl" style={{ color: '#6A6F73' }}>
+              Todo el contenido está basado exclusivamente en especificaciones API publicadas. Sin contenido genérico ni información no documentada.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {norms.map((n) => (
-              <div key={n.code} className="p-6 rounded-2xl transition-all"
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {norms.map(n => (
+              <div
+                key={n.code}
+                className="p-6 rounded-xl bg-white transition-all"
+                style={{ border: '1px solid #E8EBF0', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = '#1E2D6B';
+                  (e.currentTarget as HTMLElement).style.boxShadow   = '0 4px 16px rgba(30,45,107,0.10)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = '#E8EBF0';
+                  (e.currentTarget as HTMLElement).style.boxShadow   = '0 1px 4px rgba(0,0,0,0.05)';
+                }}
+              >
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: 'rgba(212,174,12,0.1)', border: '1px solid rgba(212,174,12,0.2)' }}>
-                    <span className="text-[#D4AE0C] font-black text-xs text-center leading-none">API</span>
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-black text-xs"
+                    style={{ background: '#EEF1FA', color: '#1E2D6B', border: '1px solid #C5CEED' }}
+                  >
+                    API
                   </div>
                   <div>
-                    <p className="text-white font-black text-base mb-0.5">{n.code}</p>
-                    <p className="text-[#D4AE0C] text-xs font-semibold mb-2">{n.full}</p>
-                    <p className="text-white/40 text-sm leading-relaxed">{n.desc}</p>
+                    <p className="font-black text-base mb-0.5" style={{ color: '#1C1D1F' }}>{n.code}</p>
+                    <p className="text-xs font-semibold mb-2" style={{ color: '#D4AE0C' }}>{n.full}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#6A6F73' }}>{n.desc}</p>
                   </div>
                 </div>
               </div>
@@ -335,28 +468,34 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CERTIFICATIONS ──────────────────────────────────────────────────── */}
-      <section id="certificaciones" className="py-20 px-6 lg:px-12">
+      {/* ── CERTIFICATIONS ──────────────────────────────────────────── */}
+      <section id="certificaciones" className="py-20 px-6 lg:px-12" style={{ background: '#F7F8FC' }}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            {/* Copy */}
             <div>
-              <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest mb-2">Sistema de certificación</p>
-              <h2 className="text-3xl font-black text-white mb-4">Un certificado por cada módulo aprobado</h2>
-              <p className="text-white/40 text-base leading-relaxed mb-8">
-                Cada módulo tiene su evaluación técnica independiente. Al superar el puntaje mínimo (70% en módulos base, 85% en API 17J) obtienes un certificado PDF descargable con tu nombre, módulo, puntaje y fecha de aprobación.
+              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#D4AE0C' }}>
+                Sistema de certificación
               </p>
+              <h2 className="text-3xl font-black mb-4" style={{ color: '#1C1D1F' }}>
+                Un certificado por cada módulo aprobado
+              </h2>
+              <p className="text-base leading-relaxed mb-8" style={{ color: '#6A6F73' }}>
+                Cada módulo tiene su evaluación técnica independiente. Al superar el puntaje mínimo obtienes un certificado PDF descargable con tu nombre, módulo, puntaje y fecha de aprobación.
+              </p>
+
               <div className="space-y-4">
-                {[
-                  { title: 'Certificados independientes por módulo', desc: 'No necesitas completar todo el programa para certificarte. Cada módulo es autónomo.' },
-                  { title: 'PDF verificable con datos técnicos', desc: 'Incluye norma de referencia, puntaje obtenido, fecha y módulo específico aprobado.' },
-                  { title: 'Progresión desde base hasta offshore', desc: 'Desde fundamentos API 15S hasta flexibles submarinos API 17J para aplicaciones avanzadas.' },
-                ].map(({ title, desc }) => (
-                  <div key={title} className="flex items-start gap-4 p-4 rounded-xl"
-                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                    <CheckIcon />
+                {certBenefits.map(({ title, desc }) => (
+                  <div
+                    key={title}
+                    className="flex items-start gap-4 p-4 rounded-xl bg-white"
+                    style={{ border: '1px solid #E8EBF0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+                  >
+                    <Check />
                     <div>
-                      <p className="text-white font-semibold text-sm">{title}</p>
-                      <p className="text-white/40 text-xs mt-0.5">{desc}</p>
+                      <p className="font-semibold text-sm" style={{ color: '#1C1D1F' }}>{title}</p>
+                      <p className="text-xs mt-0.5" style={{ color: '#9AA0A6' }}>{desc}</p>
                     </div>
                   </div>
                 ))}
@@ -364,24 +503,45 @@ export default function LandingPage() {
             </div>
 
             {/* Certificate mockup */}
-            <div className="relative">
-              <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1E2D6B 100%)', border: '1px solid rgba(212,174,12,0.3)' }}>
-                <div className="h-2 w-full" style={{ background: 'linear-gradient(90deg, #D4AE0C, #f0c930, #D4AE0C)' }} />
-                <div className="p-8 text-center">
-                  <ImanttWheelLogo size={56} />
-                  <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest mt-4 mb-1">Imantt Academy</p>
-                  <p className="text-white font-black text-xl mb-1">Certificado de Competencia</p>
-                  <p className="text-white/40 text-sm mb-6">Módulo 5 — Servicio Ácido API 15SA</p>
-                  <div className="rounded-xl p-4 mb-6" style={{ background: 'rgba(212,174,12,0.08)', border: '1px solid rgba(212,174,12,0.2)' }}>
-                    <p className="text-white font-bold text-lg">Ing. Carlos Mendoza</p>
-                    <p className="text-white/40 text-xs mt-1">ha demostrado competencia técnica con</p>
-                    <p className="text-[#D4AE0C] font-black text-2xl mt-1">88%</p>
-                    <p className="text-white/30 text-xs">de puntaje en la evaluación técnica</p>
-                  </div>
-                  <div className="flex justify-between text-[10px] text-white/30">
-                    <span>Norma: API Spec 15SA</span>
-                    <span>Emitido: Abril 2025</span>
-                  </div>
+            <div
+              className="rounded-2xl overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #0D1B3E 0%, #1E2D6B 100%)',
+                border:     '1px solid rgba(212,174,12,0.35)',
+                boxShadow:  '0 8px 40px rgba(30,45,107,0.20)',
+              }}
+            >
+              <div className="h-2 w-full" style={{ background: 'linear-gradient(90deg, #D4AE0C, #F0C930, #D4AE0C)' }} />
+              <div className="p-8 text-center">
+                <Image
+                  src="/logo-imantt-white.svg"
+                  alt="Imantt Academy"
+                  width={160}
+                  height={36}
+                  style={{ height: 36, width: 'auto', margin: '0 auto 16px' }}
+                />
+                <p className="font-black text-xl mb-1 text-white">Certificado de Competencia</p>
+                <p className="text-sm mb-7" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  Módulo 5 — Servicio Ácido API 15SA
+                </p>
+
+                <div
+                  className="rounded-xl p-5 mb-6"
+                  style={{ background: 'rgba(212,174,12,0.08)', border: '1px solid rgba(212,174,12,0.25)' }}
+                >
+                  <p className="font-bold text-lg text-white">Ing. Carlos Mendoza</p>
+                  <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                    ha demostrado competencia técnica con
+                  </p>
+                  <p className="font-black text-3xl mt-2" style={{ color: '#D4AE0C' }}>88%</p>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    de puntaje en la evaluación técnica
+                  </p>
+                </div>
+
+                <div className="flex justify-between text-[10px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                  <span>Norma: API Spec 15SA</span>
+                  <span>Emitido: Abril 2025</span>
                 </div>
               </div>
             </div>
@@ -389,47 +549,72 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ───────────────────────────────────────────────────────── */}
-      <section className="py-20 px-6 lg:px-12" style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #070E20 100%)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* ── FINAL CTA ───────────────────────────────────────────────── */}
+      <section
+        className="py-24 px-6 lg:px-12"
+        style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1E2D6B 100%)' }}
+      >
         <div className="max-w-3xl mx-auto text-center">
-          <ImanttWheelLogo size={64} />
-          <h2 className="text-3xl font-black text-white mt-6 mb-3">
+          <Image
+            src="/logo-imantt-white.svg"
+            alt="Imantt Academy"
+            width={180}
+            height={40}
+            style={{ height: 40, width: 'auto', margin: '0 auto 24px' }}
+          />
+          <h2 className="text-3xl font-black text-white mb-4">
             Eleva tu perfil técnico en Oil &amp; Gas
           </h2>
-          <p className="text-white/40 text-lg mb-8 leading-relaxed">
+          <p className="text-lg leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Certificaciones técnicas basadas en normas API reales. El estándar de la industria para ingenieros de tubería termoplástica reforzada.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register"
+            <Link
+              href="/register"
               className="px-10 py-4 rounded-xl font-black text-base transition-all"
-              style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}>
+              style={{ background: '#D4AE0C', color: '#0D1B3E', boxShadow: '0 4px 14px rgba(212,174,12,0.35)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F0C930'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#D4AE0C'; }}
+            >
               Crear cuenta gratis
             </Link>
-            <Link href="/login"
-              className="px-10 py-4 rounded-xl font-semibold text-base text-white/70 hover:text-white transition-all"
-              style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+            <Link
+              href="/login"
+              className="px-10 py-4 rounded-xl font-semibold text-base transition-all"
+              style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.18)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.14)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; }}
+            >
               Ya tengo cuenta
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
-      <footer className="py-8 px-6 lg:px-12" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* ── FOOTER ──────────────────────────────────────────────────── */}
+      <footer className="py-8 px-6 lg:px-12 bg-white" style={{ borderTop: '1px solid #E8EBF0' }}>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <ImanttWheelLogo size={28} />
-            <div>
-              <p className="text-white font-bold text-sm">Imantt Academy</p>
-              <p className="text-white/30 text-[10px]">Transforming Infrastructure</p>
-            </div>
-          </div>
-          <p className="text-white/20 text-xs text-center">
-            Contenido basado exclusivamente en normas API Spec 15S, 15SA, 15SIH y 17J documentadas.
+          <Image
+            src="/logo-imantt-navy.svg"
+            alt="Imantt Academy"
+            width={150}
+            height={34}
+            style={{ height: 34, width: 'auto' }}
+          />
+          <p className="text-xs text-center" style={{ color: '#9AA0A6' }}>
+            Contenido basado en normas API Spec 15S, 15SA, 15SIH y 17J documentadas.
           </p>
-          <div className="flex gap-4">
-            <Link href="/login" className="text-white/30 hover:text-white text-xs transition-colors">Iniciar sesión</Link>
-            <Link href="/register" className="text-white/30 hover:text-white text-xs transition-colors">Registrarse</Link>
+          <div className="flex gap-5">
+            <Link href="/login"    className="text-xs transition-colors" style={{ color: '#9AA0A6' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9AA0A6'; }}>
+              Iniciar sesión
+            </Link>
+            <Link href="/register" className="text-xs transition-colors" style={{ color: '#9AA0A6' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9AA0A6'; }}>
+              Registrarse
+            </Link>
           </div>
         </div>
       </footer>

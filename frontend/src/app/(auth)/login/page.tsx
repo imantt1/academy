@@ -1,33 +1,23 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Loader2, ChevronRight, Shield } from 'lucide-react';
+import { Eye, EyeOff, Loader2, ArrowRight, Shield, CheckCircle } from 'lucide-react';
 import { useAuthStore } from '@/store/auth.store';
 
-function ImanttLogo({ size = 48 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="30" fill="#D4AE0C" />
-      <rect x="29" y="2" width="6" height="10" rx="2" fill="#1E2D6B" />
-      <rect x="29" y="52" width="6" height="10" rx="2" fill="#1E2D6B" />
-      <rect x="2" y="29" width="10" height="6" rx="2" fill="#1E2D6B" />
-      <rect x="52" y="29" width="10" height="6" rx="2" fill="#1E2D6B" />
-      <rect x="10.5" y="10.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(-45 10.5 10.5)" />
-      <rect x="47.5" y="10.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(45 47.5 10.5)" />
-      <rect x="10.5" y="53.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(45 10.5 53.5)" />
-      <rect x="47.5" y="53.5" width="6" height="10" rx="2" fill="#1E2D6B" transform="rotate(-45 47.5 53.5)" />
-      <circle cx="32" cy="32" r="14" fill="#1E2D6B" />
-      <circle cx="32" cy="32" r="7" fill="#D4AE0C" />
-    </svg>
-  );
-}
+const norms = [
+  { code: 'API Spec 15S',   desc: 'Fundamentos, diseño y calificación de RTP' },
+  { code: 'API Spec 15SA',  desc: 'Servicio ácido — H₂S y CO₂ corrosivo' },
+  { code: 'API Spec 15SIH', desc: 'Inyección de alta presión y fatiga cíclica' },
+  { code: 'API Spec 17J',   desc: 'Flexibles submarinos — aguas profundas' },
+];
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
-  const [error, setError] = useState('');
+  const [error,    setError]    = useState('');
   const { login, isLoading } = useAuthStore();
   const router = useRouter();
 
@@ -38,143 +28,233 @@ export default function LoginPage() {
       await login(email, password);
       router.push('/dashboard');
     } catch (err: unknown) {
-      const axiosErr = err as { response?: { status?: number }; };
-      if (!axiosErr?.response) {
-        setError('No se pudo conectar con el servidor. Verifica tu conexión.');
-      } else if (axiosErr?.response?.status === 401) {
-        setError('Email o contraseña incorrectos.');
-      } else {
-        setError('Error al iniciar sesión. Intenta de nuevo.');
-      }
+      const axiosErr = err as { response?: { status?: number } };
+      if (!axiosErr?.response)                      setError('No se pudo conectar con el servidor. Verifica tu conexión.');
+      else if (axiosErr?.response?.status === 401)  setError('Email o contraseña incorrectos.');
+      else                                           setError('Error al iniciar sesión. Intenta de nuevo.');
     }
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#070E20' }}>
+    <div className="min-h-screen flex" style={{ background: '#F7F8FC' }}>
 
-      {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 relative overflow-hidden"
-        style={{ background: 'linear-gradient(145deg, #0D1B3E 0%, #1E2D6B 50%, #0a1628 100%)' }}>
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #D4AE0C 0%, transparent 50%), radial-gradient(circle at 80% 20%, #7B9FD4 0%, transparent 40%)' }} />
+      {/* ── Left panel (brand) ─────────────────────────────────────── */}
+      <div
+        className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden"
+        style={{ background: 'linear-gradient(160deg, #0D1B3E 0%, #1E2D6B 55%, #162259 100%)' }}
+      >
+        {/* Decorative orb */}
+        <div
+          className="absolute bottom-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(212,174,12,0.15) 0%, transparent 65%)',
+            transform:  'translate(35%, 35%)',
+          }}
+        />
+        <div
+          className="absolute top-0 left-0 w-64 h-64 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(91,200,232,0.08) 0%, transparent 65%)',
+            transform:  'translate(-40%, -40%)',
+          }}
+        />
 
+        {/* Logo */}
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-12">
-            <ImanttLogo />
-            <div>
-              <p className="text-white font-black text-2xl tracking-wide leading-none">IMANTT</p>
-              <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest">Academy</p>
-            </div>
-          </div>
+          <Image
+            src="/logo-imantt-white.svg"
+            alt="Imantt Academy"
+            width={200}
+            height={44}
+            priority
+            style={{ height: 44, width: 'auto', marginBottom: '2.5rem' }}
+          />
 
-          <h2 className="text-4xl font-black text-white leading-tight mb-4">
+          <h2
+            className="font-black leading-tight mb-4"
+            style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', color: '#fff' }}
+          >
             Certifícate en<br />
             <span style={{ color: '#D4AE0C' }}>Sistemas RTP</span><br />
             de nivel industria
           </h2>
-          <p className="text-white/50 text-lg leading-relaxed mb-10">
+          <p className="text-base leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Plataforma de formación técnica especializada en tubería termoplástica reforzada, basada en normas API reales.
           </p>
 
-          <div className="space-y-3">
-            {[
-              { norm: 'API Spec 15S', desc: 'Fundamentos, diseño y calificación de RTP' },
-              { norm: 'API Spec 15SA', desc: 'Servicio ácido — H₂S y CO₂ corrosivo' },
-              { norm: 'API Spec 15SIH', desc: 'Inyección de alta presión y fatiga cíclica' },
-              { norm: 'API Spec 17J', desc: 'Flexibles submarinos — aguas profundas' },
-            ].map(({ norm, desc }) => (
-              <div key={norm} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AE0C] mt-1.5 shrink-0" />
+          <div className="space-y-2.5">
+            {norms.map(({ code, desc }) => (
+              <div
+                key={code}
+                className="flex items-start gap-3 p-3 rounded-xl"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)' }}
+              >
+                <CheckCircle size={14} style={{ color: '#D4AE0C', marginTop: 2, flexShrink: 0 }} />
                 <div>
-                  <p className="text-white font-bold text-sm">{norm}</p>
-                  <p className="text-white/40 text-xs">{desc}</p>
+                  <p className="text-sm font-bold text-white">{code}</p>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>{desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Footer note */}
         <div className="relative z-10 flex items-center gap-2">
-          <Shield size={14} className="text-[#D4AE0C]" />
-          <p className="text-white/30 text-xs">Contenido basado exclusivamente en normas API documentadas</p>
+          <Shield size={13} style={{ color: '#D4AE0C' }} />
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Contenido basado exclusivamente en normas API documentadas
+          </p>
         </div>
       </div>
 
-      {/* Right Panel */}
+      {/* ── Right panel (form) ─────────────────────────────────────── */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
 
           {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-10 lg:hidden">
-            <ImanttLogo />
-            <div>
-              <p className="text-white font-black text-xl tracking-wide">IMANTT</p>
-              <p className="text-[#D4AE0C] text-xs font-bold uppercase tracking-widest">Academy</p>
-            </div>
+          <div className="mb-10 lg:hidden">
+            <Image
+              src="/logo-imantt-navy.svg"
+              alt="Imantt Academy"
+              width={190}
+              height={42}
+              priority
+              style={{ height: 42, width: 'auto' }}
+            />
           </div>
 
+          {/* Heading */}
           <div className="mb-8">
-            <h1 className="text-3xl font-black text-white mb-2">Iniciar sesión</h1>
-            <p className="text-white/40">
+            <h1 className="text-2xl font-black mb-1" style={{ color: '#1C1D1F' }}>
+              Iniciar sesión
+            </h1>
+            <p className="text-sm" style={{ color: '#6A6F73' }}>
               ¿No tienes cuenta?{' '}
-              <Link href="/register" className="text-[#D4AE0C] hover:text-[#e8c514] font-semibold transition-colors">
+              <Link
+                href="/register"
+                className="font-semibold transition-colors"
+                style={{ color: '#1E2D6B' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#D4AE0C'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+              >
                 Regístrate gratis
               </Link>
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+
+            {/* Email */}
             <div>
-              <label className="block text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">
+              <label
+                className="block text-xs font-bold uppercase tracking-wider mb-2"
+                style={{ color: '#6A6F73' }}
+              >
                 Correo electrónico
               </label>
               <input
-                type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                required placeholder="tu@email.com"
-                className="w-full px-4 py-3.5 rounded-xl text-white text-sm outline-none transition-all placeholder-white/20"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-                onFocus={e => { (e.target as HTMLElement).style.borderColor = 'rgba(212,174,12,0.6)'; (e.target as HTMLElement).style.background = 'rgba(212,174,12,0.05)'; }}
-                onBlur={e => { (e.target as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                placeholder="tu@email.com"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-none bg-white transition-all"
+                style={{ border: '1px solid #D1D7DC', color: '#1C1D1F' }}
+                onFocus={e => { (e.target as HTMLElement).style.borderColor = '#1E2D6B'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(30,45,107,0.1)'; }}
+                onBlur={e  => { (e.target as HTMLElement).style.borderColor = '#D1D7DC';  (e.target as HTMLElement).style.boxShadow = 'none'; }}
               />
             </div>
 
+            {/* Password */}
             <div>
-              <label className="block text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">
+              <label
+                className="block text-xs font-bold uppercase tracking-wider mb-2"
+                style={{ color: '#6A6F73' }}
+              >
                 Contraseña
               </label>
               <div className="relative">
                 <input
-                  type={showPass ? 'text' : 'password'} value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required placeholder="••••••••"
-                  className="w-full px-4 py-3.5 pr-12 rounded-xl text-white text-sm outline-none transition-all placeholder-white/20"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-                  onFocus={e => { (e.target as HTMLElement).style.borderColor = 'rgba(212,174,12,0.6)'; (e.target as HTMLElement).style.background = 'rgba(212,174,12,0.05)'; }}
-                  onBlur={e => { (e.target as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                  type={showPass ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3 pr-12 rounded-xl text-sm outline-none bg-white transition-all"
+                  style={{ border: '1px solid #D1D7DC', color: '#1C1D1F' }}
+                  onFocus={e => { (e.target as HTMLElement).style.borderColor = '#1E2D6B'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(30,45,107,0.1)'; }}
+                  onBlur={e  => { (e.target as HTMLElement).style.borderColor = '#D1D7DC';  (e.target as HTMLElement).style.boxShadow = 'none'; }}
                 />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: '#9AA0A6' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1E2D6B'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9AA0A6'; }}
+                >
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
 
+            {/* Error */}
             {error && (
-              <div className="px-4 py-3 rounded-xl text-sm text-red-400"
-                style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
+              <div
+                className="px-4 py-3 rounded-xl text-sm font-medium"
+                style={{
+                  background: '#FEF2F2',
+                  border:     '1px solid #FCA5A5',
+                  color:      '#DC2626',
+                }}
+              >
                 {error}
               </div>
             )}
 
-            <button type="submit" disabled={isLoading}
-              className="w-full py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: 'linear-gradient(135deg, #D4AE0C, #b8940a)', color: '#0D1B3E' }}
-              onMouseEnter={e => { if (!isLoading) (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #e8c514, #D4AE0C)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #D4AE0C, #b8940a)'; }}
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ background: '#1E2D6B', color: '#fff' }}
+              onMouseEnter={e => { if (!isLoading) (e.currentTarget as HTMLElement).style.background = '#2E3F8F'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#1E2D6B'; }}
             >
-              {isLoading ? <Loader2 size={16} className="animate-spin" /> : <ChevronRight size={16} />}
-              {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+              {isLoading
+                ? <><Loader2 size={16} className="animate-spin" /> Iniciando sesión…</>
+                : <><ArrowRight size={16} /> Iniciar sesión</>
+              }
             </button>
           </form>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px" style={{ background: '#E8EBF0' }} />
+            <span className="text-xs font-medium" style={{ color: '#9AA0A6' }}>o</span>
+            <div className="flex-1 h-px" style={{ background: '#E8EBF0' }} />
+          </div>
+
+          {/* Register CTA */}
+          <Link
+            href="/register"
+            className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all"
+            style={{
+              background: '#fff',
+              color:      '#1E2D6B',
+              border:     '1.5px solid #1E2D6B',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#EEF1FA'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; }}
+          >
+            Crear cuenta gratis
+          </Link>
+
+          <p className="text-center text-xs mt-6" style={{ color: '#9AA0A6' }}>
+            Al continuar aceptas los términos de uso de Imantt Academy.
+          </p>
         </div>
       </div>
     </div>
