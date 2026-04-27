@@ -171,4 +171,28 @@ export default function Sidebar() {
                 style={{ color: '#9AA0A6' }}
               >
                 {user.email}
-    
+              </p>
+            </div>
+          </div>
+        )}
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left"
+          style={{ color: '#6A6F73' }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLElement).style.background = '#FEF2F2';
+            (e.currentTarget as HTMLElement).style.color = '#DC2626';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLElement).style.background = 'transparent';
+            (e.currentTarget as HTMLElement).style.color = '#6A6F73';
+          }}
+        >
+          <LogOut size={16} />
+          <span className="text-sm font-medium">Cerrar sesión</span>
+        </button>
+      </div>
+    </aside>
+  );
+}

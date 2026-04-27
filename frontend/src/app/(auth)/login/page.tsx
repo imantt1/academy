@@ -222,4 +222,28 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl font-black text-sm f
+              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all"
+              style={{
+                background: isLoading ? '#9AA0A6' : '#1E2D6B',
+                color: '#fff',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {isLoading
+                ? <><Loader2 size={16} className="animate-spin" /> Iniciando sesión...</>
+                : <><span>Iniciar sesión</span><ArrowRight size={16} /></>
+              }
+            </button>
+
+            <p className="text-center text-sm" style={{ color: '#6A6F73' }}>
+              ¿No tienes cuenta?{' '}
+              <Link href="/register" className="font-bold" style={{ color: '#1E2D6B' }}>
+                Regístrate gratis
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}

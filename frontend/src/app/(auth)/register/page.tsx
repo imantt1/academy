@@ -280,4 +280,43 @@ export default function RegisterPage() {
             {/* Error */}
             {error && (
               <div
-                className="px-4 py-3 round
+                className="px-4 py-3 rounded-xl text-sm font-medium"
+                style={{
+                  background: '#FEF2F2',
+                  border:     '1px solid #FCA5A5',
+                  color:      '#DC2626',
+                }}
+              >
+                {error}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all"
+              style={{
+                background: isLoading ? '#9AA0A6' : '#1E2D6B',
+                color: '#fff',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {isLoading
+                ? <><Loader2 size={16} className="animate-spin" /> Creando cuenta...</>
+                : <><span>Crear cuenta gratis</span><ArrowRight size={16} /></>
+              }
+            </button>
+
+            <p className="text-center text-sm" style={{ color: '#6A6F73' }}>
+              ¿Ya tienes cuenta?{' '}
+              <Link href="/login" className="font-bold" style={{ color: '#1E2D6B' }}>
+                Iniciar sesión
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}

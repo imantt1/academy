@@ -513,4 +513,91 @@ export default function LandingPage() {
                 boxShadow:  '0 8px 40px rgba(30,45,107,0.20)',
               }}
             >
-              <div className="h-2 w-full" style={
+              {/* Gold accent bar */}
+              <div className="h-2 w-full" style={{ background: 'linear-gradient(90deg, #D4AE0C, #F0D060)' }} />
+
+              {/* Certificate content */}
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(212,174,12,0.8)' }}>
+                    Certificado de Aprobación
+                  </p>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(212,174,12,0.15)', border: '1px solid rgba(212,174,12,0.3)' }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.5 3.5L7 9.5 4 11l.5-3.5L2 5l3.5-.5L7 1z" fill="#D4AE0C" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>Este certificado acredita que</p>
+                <p className="text-xl font-black mb-4" style={{ color: '#fff' }}>Nombre del Profesional</p>
+                <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>ha completado satisfactoriamente</p>
+                <p className="text-base font-bold mb-1" style={{ color: '#D4AE0C' }}>Módulo 1 — Fundamentos y Clasificación RTP</p>
+                <p className="text-xs mb-6" style={{ color: 'rgba(255,255,255,0.4)' }}>Basado en API Spec 15S</p>
+                <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div>
+                    <p className="text-xs font-bold" style={{ color: '#D4AE0C' }}>Puntaje</p>
+                    <p className="text-2xl font-black" style={{ color: '#fff' }}>92%</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs font-bold mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>Imantt Academy</p>
+                    <div className="w-16 h-0.5" style={{ background: 'rgba(212,174,12,0.5)' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ─────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-6 lg:px-12" style={{ background: 'linear-gradient(160deg, #0D1B3E 0%, #1E2D6B 100%)' }}>
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#D4AE0C' }}>Empieza hoy</p>
+          <h2 className="text-3xl lg:text-4xl font-black mb-4 text-white">Certifícate en Sistemas RTP</h2>
+          <p className="text-base mb-10" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            Acceso gratuito a los 8 módulos base. Sin tarjeta de crédito. Sin compromisos.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/register"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-black text-sm transition-all"
+              style={{ background: '#D4AE0C', color: '#0D1B3E' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F0D060'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#D4AE0C'; }}
+            >
+              Crear cuenta gratis <ArrowRight />
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-black text-sm transition-all"
+              style={{ background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.3)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.7)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.3)'; }}
+            >
+              Iniciar sesión
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="py-8 px-6 lg:px-12 bg-white" style={{ borderTop: '1px solid #E8EBF0' }}>
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Image
+            src="/logo-imantt-navy.svg"
+            alt="Imantt Academy"
+            width={120}
+            height={30}
+            unoptimized
+            style={{ height: 30, width: 'auto' }}
+          />
+          <p className="text-xs" style={{ color: '#9AA0A6' }}>
+            © {new Date().getFullYear()} Imantt Academy. Contenido basado en normas API documentadas.
+          </p>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
