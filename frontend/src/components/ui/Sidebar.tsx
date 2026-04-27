@@ -32,11 +32,12 @@ export default function Sidebar() {
       <div className="px-5 py-5" style={{ borderBottom: '1px solid #E8EBF0' }}>
         <Link href="/dashboard" className="block">
           <Image
-            src="/logo-imantt-navy.png"
+            src="/logo-imantt-navy.svg"
             alt="Imantt Academy"
             width={202}
             height={50}
             priority
+            unoptimized
             style={{ height: 50, width: 'auto', maxWidth: '100%' }}
           />
         </Link>
@@ -170,4 +171,4 @@ export default function Sidebar() {
                 style={{ color: '#9AA0A6' }}
               >
                 {user.email}
-          
+    

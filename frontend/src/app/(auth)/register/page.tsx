@@ -105,11 +105,12 @@ export default function RegisterPage() {
         <div className="relative z-10">
           <div style={{ display: 'inline-block', background: '#fff', borderRadius: 12, padding: '8px 16px', marginBottom: '2.5rem' }}>
             <Image
-              src="/logo-imantt-white.png"
+              src="/logo-imantt-white.svg"
               alt="Imantt Academy"
               width={202}
               height={50}
               priority
+              unoptimized
               style={{ height: 50, width: 'auto' }}
             />
           </div>
@@ -156,11 +157,12 @@ export default function RegisterPage() {
           {/* Mobile logo */}
           <div className="mb-10 lg:hidden">
             <Image
-              src="/logo-imantt-navy.png"
+              src="/logo-imantt-navy.svg"
               alt="Imantt Academy"
               width={202}
               height={50}
               priority
+              unoptimized
               style={{ height: 50, width: 'auto' }}
             />
           </div>
@@ -275,4 +277,7 @@ export default function RegisterPage() {
               )}
             </Field>
 
-            {/* Err
+            {/* Error */}
+            {error && (
+              <div
+                className="px-4 py-3 round

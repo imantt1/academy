@@ -71,11 +71,12 @@ export default function LandingPage() {
       >
         <Link href="/" className="flex items-center">
           <Image
-            src="/logo-imantt-navy.png"
+            src="/logo-imantt-navy.svg"
             alt="Imantt Academy"
             width={193}
             height={48}
             priority
+            unoptimized
             style={{ height: 48, width: 'auto' }}
           />
         </Link>
@@ -512,4 +513,4 @@ export default function LandingPage() {
                 boxShadow:  '0 8px 40px rgba(30,45,107,0.20)',
               }}
             >
-              <div className="h-2 w-full" style={{ background: 'linear-gr
+              <div className="h-2 w-full" style={
