@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Loader2, ArrowRight, CheckCircle, Shield } from 'lucide-react';
@@ -103,16 +102,8 @@ export default function RegisterPage() {
 
         {/* Logo + copy */}
         <div className="relative z-10">
-          <div style={{ display: 'inline-block', background: '#fff', borderRadius: 12, padding: '8px 16px', marginBottom: '2.5rem' }}>
-            <Image
-              src="/logo-imantt-white.svg"
-              alt="Imantt Academy"
-              width={202}
-              height={50}
-              priority
-              unoptimized
-              style={{ height: 50, width: 'auto' }}
-            />
+          <div style={{ display: 'inline-block', marginBottom: '2.5rem' }}>
+            <img src="/logo-imantt-white.svg" alt="Imantt Academy" style={{ height: 44, width: 'auto' }} />
           </div>
 
           <h2
@@ -156,15 +147,7 @@ export default function RegisterPage() {
 
           {/* Mobile logo */}
           <div className="mb-10 lg:hidden">
-            <Image
-              src="/logo-imantt-navy.svg"
-              alt="Imantt Academy"
-              width={202}
-              height={50}
-              priority
-              unoptimized
-              style={{ height: 50, width: 'auto' }}
-            />
+            <img src="/logo-imantt-navy.svg" alt="Imantt Academy" style={{ height: 40, width: 'auto' }} />
           </div>
 
           {/* Heading */}

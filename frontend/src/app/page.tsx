@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 
 /* ── data ──────────────────────────────────────────────────────────── */
@@ -70,15 +69,7 @@ export default function LandingPage() {
         style={{ borderBottom: '1px solid #E8EBF0', boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}
       >
         <Link href="/" className="flex items-center">
-          <Image
-            src="/logo-imantt-navy.svg"
-            alt="Imantt Academy"
-            width={193}
-            height={48}
-            priority
-            unoptimized
-            style={{ height: 48, width: 'auto' }}
-          />
+          <img src="/logo-imantt-navy.svg" alt="Imantt Academy" style={{ height: 44, width: 'auto' }} />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
@@ -584,14 +575,7 @@ export default function LandingPage() {
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
       <footer className="py-8 px-6 lg:px-12 bg-white" style={{ borderTop: '1px solid #E8EBF0' }}>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Image
-            src="/logo-imantt-navy.svg"
-            alt="Imantt Academy"
-            width={120}
-            height={30}
-            unoptimized
-            style={{ height: 30, width: 'auto' }}
-          />
+          <img src="/logo-imantt-navy.svg" alt="Imantt Academy" style={{ height: 32, width: 'auto' }} />
           <p className="text-xs" style={{ color: '#9AA0A6' }}>
             © {new Date().getFullYear()} Imantt Academy. Contenido basado en normas API documentadas.
           </p>

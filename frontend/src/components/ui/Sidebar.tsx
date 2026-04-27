@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, BookOpen, Award, LogOut, ChevronRight, Shield, Star } from 'lucide-react';
@@ -31,15 +30,7 @@ export default function Sidebar() {
       {/* ── Logo ───────────────────────────────────────────── */}
       <div className="px-5 py-5" style={{ borderBottom: '1px solid #E8EBF0' }}>
         <Link href="/dashboard" className="block">
-          <Image
-            src="/logo-imantt-navy.svg"
-            alt="Imantt Academy"
-            width={202}
-            height={50}
-            priority
-            unoptimized
-            style={{ height: 50, width: 'auto', maxWidth: '100%' }}
-          />
+          <img src="/logo-imantt-navy.svg" alt="Imantt Academy" style={{ height: 40, width: 'auto', maxWidth: '100%' }} />
         </Link>
       </div>
 
