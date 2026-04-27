@@ -61,14 +61,16 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="relative z-10">
-          <Image
-            src="/logo-imantt-white.png"
-            alt="Imantt Academy"
-            width={200}
-            height={44}
-            priority
-            style={{ height: 44, width: 'auto', marginBottom: '2.5rem' }}
-          />
+          <div style={{ display: 'inline-block', background: '#fff', borderRadius: 12, padding: '8px 16px', marginBottom: '2.5rem' }}>
+            <Image
+              src="/logo-imantt-white.png"
+              alt="Imantt Academy"
+              width={202}
+              height={50}
+              priority
+              style={{ height: 50, width: 'auto' }}
+            />
+          </div>
 
           <h2
             className="font-black leading-tight mb-4"
@@ -117,10 +119,10 @@ export default function LoginPage() {
             <Image
               src="/logo-imantt-navy.png"
               alt="Imantt Academy"
-              width={190}
-              height={42}
+              width={202}
+              height={50}
               priority
-              style={{ height: 42, width: 'auto' }}
+              style={{ height: 50, width: 'auto' }}
             />
           </div>
 
@@ -217,5 +219,4 @@ export default function LoginPage() {
             {/* Submit */}
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all
+             

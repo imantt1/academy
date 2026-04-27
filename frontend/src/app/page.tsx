@@ -73,10 +73,10 @@ export default function LandingPage() {
           <Image
             src="/logo-imantt-navy.png"
             alt="Imantt Academy"
-            width={190}
-            height={40}
+            width={193}
+            height={48}
             priority
-            style={{ height: 38, width: 'auto' }}
+            style={{ height: 48, width: 'auto' }}
           />
         </Link>
 

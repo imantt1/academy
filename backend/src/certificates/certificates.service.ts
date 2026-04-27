@@ -8,6 +8,8 @@ import { UserProgress } from '../entities/user-progress.entity';
 import { Module as ModuleEntity } from '../entities/module.entity';
 import { User } from '../entities/user.entity';
 import * as crypto from 'crypto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class CertificatesService {
@@ -98,17 +100,36 @@ export class CertificatesService {
     // Light body background
     page.drawRectangle({ x: 8, y: 74, width: width - 16, height: height - 190, color: lightGray });
 
-    // Header: Company name
-    page.drawText('IMANTT ACADEMY', {
-      x: 40, y: height - 68,
-      size: 28, font: fontBold, color: white,
-    });
-
-    // Header subtitle
-    page.drawText('Transforming Infrastructure', {
-      x: 40, y: height - 90,
-      size: 12, font: fontItalic, color: blue,
-    });
+    // Header: Logo image (white card so the logo reads on dark background)
+    try {
+      const logoPath = path.join(__dirname, '../../src/assets/logo.png');
+      const logoBytes = fs.readFileSync(logoPath);
+      const logoImg = await pdfDoc.embedPng(logoBytes);
+      const logoDims = logoImg.scale(1);
+      const logoH = 70;
+      const logoW = (logoDims.width / logoDims.height) * logoH;
+      const logoPadX = 8, logoPadY = 6;
+      // White pill behind the logo
+      page.drawRectangle({
+        x: 28, y: height - 100,
+        width: logoW + logoPadX * 2, height: logoH + logoPadY * 2,
+        color: white, borderRadius: 8,
+      });
+      page.drawImage(logoImg, {
+        x: 28 + logoPadX, y: height - 100 + logoPadY,
+        width: logoW, height: logoH,
+      });
+    } catch {
+      // Fallback to text if image not found
+      page.drawText('IMANTT ACADEMY', {
+        x: 40, y: height - 68,
+        size: 28, font: fontBold, color: white,
+      });
+      page.drawText('Transforming Infrastructure', {
+        x: 40, y: height - 90,
+        size: 12, font: fontItalic, color: blue,
+      });
+    }
 
     // Certificate title
     page.drawText('CERTIFICADO DE FINALIZACIÓN', {
@@ -176,29 +197,4 @@ export class CertificatesService {
     page.drawText('_______________________________', {
       x: 100, y: height - 430, size: 11, font: fontRegular, color: rgb(0.6, 0.6, 0.6),
     });
-    page.drawText('Director Académico', {
-      x: 130, y: height - 450, size: 10, font: fontBold, color: navy,
-    });
-    page.drawText('Imantt Academy', {
-      x: 140, y: height - 465, size: 9, font: fontItalic, color: rgb(0.5, 0.5, 0.5),
-    });
-
-    // Verification code
-    page.drawText(`Código de verificación: ${code}`, {
-      x: width / 2 - 20, y: height - 445,
-      size: 9, font: fontRegular, color: rgb(0.5, 0.5, 0.5),
-    });
-    page.drawText('Verifica en: academy.imantt.com/verify', {
-      x: width / 2 - 20, y: height - 460,
-      size: 9, font: fontItalic, color: blue,
-    });
-
-    // Footer
-    page.drawText('© 2026 Imantt Academy  |  academy.imantt.com  |  Todos los derechos reservados', {
-      x: 60, y: 25, size: 9, font: fontRegular, color: rgb(0.7, 0.7, 0.8),
-    });
-
-    const pdfBytes = await pdfDoc.save();
-    return Buffer.from(pdfBytes);
-  }
-}
+    page.drawText('Dire

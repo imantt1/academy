@@ -34,10 +34,10 @@ export default function Sidebar() {
           <Image
             src="/logo-imantt-navy.png"
             alt="Imantt Academy"
-            width={190}
-            height={42}
+            width={202}
+            height={50}
             priority
-            style={{ height: 42, width: 'auto' }}
+            style={{ height: 50, width: 'auto', maxWidth: '100%' }}
           />
         </Link>
       </div>
@@ -170,5 +170,4 @@ export default function Sidebar() {
                 style={{ color: '#9AA0A6' }}
               >
                 {user.email}
-              </p>
-         
+          
